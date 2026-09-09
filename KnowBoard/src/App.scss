@@ -1,0 +1,891 @@
+$app-bg: #f4f2ef;
+$app-card: #ffffff;
+$app-panel: #faf9f7;
+$app-line: #e9e5e0;
+$app-text: #17161a;
+$app-muted: #74707a;
+$app-soft: #a19da8;
+$app-accent: #f5761a;
+$app-accent-dark: #d95f0c;
+$app-accent-soft: #fff1e6;
+$app-info: #2f7ef0;
+$app-pink: #e0399a;
+$app-violet: #7c5cf0;
+$app-success: #16a34a;
+$app-warning: #d97706;
+$app-danger: #dc2626;
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: $app-bg;
+  color: $app-text;
+}
+
+.sidebar {
+  width: 240px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid $app-line;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 20px 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px 18px;
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    background: $app-accent-soft;
+    color: $app-accent;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  flex: 1;
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 10px;
+    color: $app-muted;
+    font-weight: 500;
+    transition: 0.2s ease;
+
+    &:hover {
+      background: $app-panel;
+      color: $app-text;
+    }
+
+    &.active {
+      background: $app-accent-soft;
+      color: $app-accent;
+    }
+
+    .nav-icon {
+      font-size: 1.15rem;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      min-width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      padding: 0 7px;
+      background: $app-accent;
+      color: white;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+  }
+}
+
+.sidebar-user {
+  border-top: 1px solid $app-line;
+  padding-top: 16px;
+
+  .user-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $app-violet, #9c8af6);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+  }
+
+  .user-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+      font-size: 0.9rem;
+    }
+
+    span {
+      font-size: 0.72rem;
+      color: $app-muted;
+    }
+  }
+
+  .trial-box {
+    background: $app-accent-soft;
+    border-radius: 12px;
+    padding: 12px 10px;
+
+    span {
+      display: block;
+      color: $app-accent;
+      font-size: 0.76rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .upgrade-btn {
+      width: 100%;
+      padding: 9px 10px;
+      border: none;
+      background: $app-accent;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+
+      &:hover {
+        background: $app-accent-dark;
+      }
+    }
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 26px 26px 32px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  .page-title {
+    margin: 0;
+    font-size: clamp(1.8rem, 2vw, 2.7rem);
+    line-height: 1.1;
+  }
+
+  .streak {
+    margin-top: 6px;
+    color: $app-warning;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .topbar-tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .search-box {
+    input {
+      width: 240px;
+      border: 1px solid $app-line;
+      background: $app-card;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 0.92rem;
+
+      &:focus {
+        outline: 2px solid rgba($app-accent, 0.15);
+        border-color: $app-accent;
+      }
+    }
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid $app-line;
+    background: $app-card;
+    cursor: pointer;
+  }
+}
+
+.dashboard-page,
+.courses-page,
+.task-board,
+.resources-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 18px;
+
+  .stat-card {
+    background: $app-card;
+    padding: 20px 18px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(20, 20, 30, 0.04);
+
+    .stat-label {
+      color: $app-muted;
+      font-size: 0.75rem;
+      margin-bottom: 10px;
+      letter-spacing: 0.01em;
+    }
+
+    .stat-value {
+      font-size: clamp(1.9rem, 2vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .stat-subtitle {
+      color: $app-soft;
+      font-size: 0.72rem;
+    }
+  }
+}
+
+.panel {
+  background: $app-card;
+  border-radius: 18px;
+  padding: 20px 22px;
+  box-shadow: 0 2px 10px rgba(20, 20, 30, 0.04);
+
+  h2 {
+    margin: 0 0 18px;
+    font-size: 1.14rem;
+  }
+}
+
+.activity-chart {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(72px, 1fr));
+  gap: 16px;
+  align-items: end;
+
+  .activity-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .activity-bar-wrap {
+      height: 112px;
+      width: 100%;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+    }
+
+    .activity-bar {
+      width: 72%;
+      min-height: 18px;
+      border-radius: 8px 8px 0 0;
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .activity-data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+
+      span {
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      small {
+        color: $app-muted;
+        font-size: 0.62rem;
+      }
+    }
+  }
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 12px;
+    border: 1px solid $app-line;
+    border-radius: 12px;
+    background: #fffdfb;
+
+    .task-priority {
+      width: 4px;
+      height: 42px;
+      border-radius: 999px;
+
+      &.priority-high {
+        background: #ef4444;
+      }
+
+      &.priority-medium {
+        background: $app-warning;
+      }
+
+      &.priority-low {
+        background: $app-success;
+      }
+    }
+
+    .task-copy {
+      flex: 1;
+
+      strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.92rem;
+      }
+    }
+
+    .task-submeta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.72rem;
+      color: $app-muted;
+    }
+
+    .task-badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-in_progress {
+      background: #dbeafe;
+      color: $app-info;
+    }
+
+    .status-not_started {
+      background: $app-panel;
+      color: $app-muted;
+    }
+
+    .status-submitted {
+      background: #fef3c7;
+      color: $app-warning;
+    }
+
+    .status-graded {
+      background: #dcfce7;
+      color: $app-success;
+    }
+  }
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .filter-btn {
+    border: 1px solid $app-line;
+    background: $app-card;
+    color: $app-muted;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover {
+      background: $app-panel;
+    }
+
+    &.active {
+      background: $app-accent;
+      border-color: $app-accent;
+      color: white;
+    }
+  }
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.course-card {
+  background: $app-card;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(20, 20, 30, 0.04);
+
+  .course-category {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+
+    &.category-accent {
+      background: $app-accent-soft;
+      color: $app-accent;
+    }
+
+    &.category-info {
+      background: #dbeafe;
+      color: $app-info;
+    }
+
+    &.category-pink {
+      background: #fce7f3;
+      color: $app-pink;
+    }
+
+    &.category-violet {
+      background: #ede9fe;
+      color: $app-violet;
+    }
+  }
+
+  h3 {
+    margin: 0 0 10px;
+    font-size: 1.04rem;
+    line-height: 1.4;
+  }
+
+  .course-desc {
+    color: $app-muted;
+    line-height: 1.6;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+  }
+
+  .meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.8rem;
+
+    span {
+      color: $app-muted;
+    }
+
+    strong {
+      text-align: right;
+      font-size: 0.78rem;
+    }
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+
+    .tag {
+      display: inline-block;
+      background: $app-panel;
+      color: $app-muted;
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 0.68rem;
+    }
+  }
+
+  .progress-block {
+    margin-top: 8px;
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.76rem;
+      margin-bottom: 8px;
+      color: $app-muted;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: $app-panel;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 10px;
+
+      span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, $app-accent, #ff9b52);
+      }
+    }
+
+    .score-pill {
+      font-size: 0.72rem;
+      color: $app-success;
+      font-weight: 700;
+    }
+  }
+
+  .course-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+
+    .price-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .current-price {
+        font-size: 1rem;
+        font-weight: 700;
+      }
+
+      .old-price {
+        color: $app-soft;
+        font-size: 0.74rem;
+        text-decoration: line-through;
+      }
+
+      .free-price {
+        font-size: 1rem;
+        font-weight: 700;
+        color: $app-success;
+      }
+    }
+
+    .enroll-btn {
+      border: none;
+      background: $app-accent;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        background: $app-accent-dark;
+      }
+    }
+  }
+
+  .warning-box {
+    margin-top: 12px;
+    background: #fef3c7;
+    color: $app-warning;
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    &.danger {
+      background: #fee2e2;
+      color: $app-danger;
+    }
+  }
+}
+
+.task-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 18px;
+
+  .task-column {
+    background: $app-card;
+    border-radius: 16px;
+    padding: 14px;
+    min-height: 320px;
+
+    h3 {
+      margin: 0 0 14px;
+      font-size: 0.9rem;
+      color: $app-muted;
+    }
+  }
+
+  .task-card {
+    background: #fffdfb;
+    border: 1px solid $app-line;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+
+    &.graded {
+      border-left: 3px solid $app-success;
+    }
+
+    .task-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+
+      .task-kind {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.62rem;
+        text-transform: lowercase;
+        font-weight: 700;
+
+        &.kind-assignment {
+          background: #dbeafe;
+          color: $app-info;
+        }
+
+        &.kind-quiz {
+          background: #fef3c7;
+          color: $app-warning;
+        }
+
+        &.kind-project {
+          background: #ede9fe;
+          color: $app-violet;
+        }
+
+        &.kind-lab {
+          background: #dcfce7;
+          color: $app-success;
+        }
+      }
+
+      .priority-badge,
+      .score-badge {
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.62rem;
+        font-weight: 700;
+      }
+
+      .priority-high {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+
+      .priority-medium {
+        background: #fef3c7;
+        color: $app-warning;
+      }
+
+      .priority-low {
+        background: #dcfce7;
+        color: $app-success;
+      }
+
+      .score-badge.good {
+        background: #dcfce7;
+        color: $app-success;
+      }
+
+      .score-badge.average {
+        background: #fef3c7;
+        color: $app-warning;
+      }
+    }
+
+    h4 {
+      margin: 0 0 8px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .course-name {
+      margin: 0 0 8px;
+      color: $app-muted;
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+
+    .task-date,
+    .feedback {
+      font-size: 0.72rem;
+      color: $app-muted;
+      line-height: 1.5;
+    }
+
+    .feedback {
+      color: $app-text;
+      strong {
+        color: $app-text;
+      }
+    }
+  }
+}
+
+.resources-page {
+  .resource-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: $app-card;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px rgba(20, 20, 30, 0.04);
+
+    .resource-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: $app-panel;
+      font-size: 1.25rem;
+    }
+
+    .resource-copy {
+      flex: 1;
+
+      strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      p {
+        margin: 0;
+        color: $app-muted;
+        font-size: 0.76rem;
+      }
+    }
+
+    .resource-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: $app-muted;
+      font-size: 0.72rem;
+
+      .kind-tag {
+        background: $app-panel;
+        color: $app-text;
+        padding: 5px 8px;
+        border-radius: 8px;
+        font-weight: 700;
+      }
+    }
+
+    .download-btn {
+      border: none;
+      background: $app-accent;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+
+      &:hover {
+        background: $app-accent-dark;
+      }
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+
+  .task-board {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid $app-line;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+  }
+
+  .content {
+    padding: 18px 14px 28px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+
+    .topbar-tools {
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+    }
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task-board {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-item {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .resource-meta {
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .download-btn {
+      width: 100%;
+    }
+  }
+}

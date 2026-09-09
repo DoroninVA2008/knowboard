@@ -1,0 +1,847 @@
+{
+  "version": 1,
+  "today": "2026-09-09",
+  "user": {
+    "id": "u1",
+    "name": "Алексей Жданов",
+    "email": "a.zhdanov@knowvio.ru",
+    "role": "Студент, поток Веб и данные",
+    "initials": "АЖ",
+    "plan": "free",
+    "trialDaysLeft": 9,
+    "streakDays": 12
+  },
+  "settings": {
+    "theme": "light",
+    "emailDigest": true,
+    "deadlineReminders": false,
+    "language": "ru"
+  },
+  "categories": [
+    {
+      "id": "web",
+      "name": "Веб-разработка",
+      "color": "accent"
+    },
+    {
+      "id": "data",
+      "name": "Данные и аналитика",
+      "color": "info"
+    },
+    {
+      "id": "design",
+      "name": "Дизайн",
+      "color": "pink"
+    },
+    {
+      "id": "mobile",
+      "name": "Мобильная разработка",
+      "color": "violet"
+    }
+  ],
+  "courses": [
+    {
+      "id": "c1",
+      "title": "React с нуля: компоненты, состояние, роутинг",
+      "categoryId": "web",
+      "teacher": "Алина Ковалёва",
+      "level": "beginner",
+      "description": "Базовый курс по React: разметка, состояние, списки, формы и клиентский роутинг.",
+      "hours": 24,
+      "rating": 4.8,
+      "reviews": 312,
+      "price": 12900,
+      "oldPrice": 19900,
+      "seatsLeft": 12,
+      "updatedAt": "2026-08-14",
+      "tags": [
+        "React",
+        "JSX",
+        "Router"
+      ],
+      "lessons": [
+        {
+          "id": "c1l1",
+          "title": "Первый компонент",
+          "minutes": 18,
+          "free": true
+        },
+        {
+          "id": "c1l2",
+          "title": "Пропсы и состояние",
+          "minutes": 32,
+          "free": false
+        },
+        {
+          "id": "c1l3",
+          "title": "Списки и ключи",
+          "minutes": 27,
+          "free": false
+        },
+        {
+          "id": "c1l4",
+          "title": "Формы без библиотек",
+          "minutes": 41,
+          "free": false
+        },
+        {
+          "id": "c1l5",
+          "title": "Роутинг и вложенные маршруты",
+          "minutes": 36,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 5,
+      "enrolled": true,
+      "lessonsDone": 3,
+      "averageScore": 82
+    },
+    {
+      "id": "c2",
+      "title": "TypeScript для тех, кто уже пишет на JavaScript и хочет наконец разобраться в дженериках",
+      "categoryId": "web",
+      "teacher": "Дмитрий Ершов",
+      "level": "middle",
+      "description": "Типы вместо догадок: сужение, дженерики, утилиты, строгий режим в реальном проекте.",
+      "hours": 18,
+      "rating": 4.95,
+      "reviews": 158,
+      "price": 15400,
+      "seatsLeft": 3,
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "TypeScript",
+        "Строгий режим"
+      ],
+      "lessons": [
+        {
+          "id": "c2l1",
+          "title": "Зачем типы",
+          "minutes": 14,
+          "free": true
+        },
+        {
+          "id": "c2l2",
+          "title": "Сужение типов",
+          "minutes": 29,
+          "free": false
+        },
+        {
+          "id": "c2l3",
+          "title": "Дженерики на практике",
+          "minutes": 45,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 3,
+      "enrolled": true,
+      "lessonsDone": 1,
+      "averageScore": 91
+    },
+    {
+      "id": "c3",
+      "title": "SQL и витрины данных",
+      "categoryId": "data",
+      "teacher": "Марина Гурьева",
+      "level": "beginner",
+      "description": "Выборки, соединения, оконные функции и подготовка данных для отчётов.",
+      "hours": 30,
+      "rating": 4.6,
+      "reviews": 421,
+      "price": 11200,
+      "oldPrice": 14000,
+      "seatsLeft": 24,
+      "updatedAt": "2026-07-29",
+      "tags": [
+        "SQL",
+        "PostgreSQL",
+        "Отчёты"
+      ],
+      "lessons": [
+        {
+          "id": "c3l1",
+          "title": "SELECT и фильтры",
+          "minutes": 22,
+          "free": true
+        },
+        {
+          "id": "c3l2",
+          "title": "JOIN без боли",
+          "minutes": 38,
+          "free": false
+        },
+        {
+          "id": "c3l3",
+          "title": "Агрегаты и группировки",
+          "minutes": 31,
+          "free": false
+        },
+        {
+          "id": "c3l4",
+          "title": "Оконные функции",
+          "minutes": 47,
+          "free": false
+        },
+        {
+          "id": "c3l5",
+          "title": "Индексы и планы",
+          "minutes": 35,
+          "free": false
+        },
+        {
+          "id": "c3l6",
+          "title": "Витрина для дашборда",
+          "minutes": 52,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 6,
+      "enrolled": true,
+      "lessonsDone": 6,
+      "averageScore": 74
+    },
+    {
+      "id": "c4",
+      "title": "Введение в аналитику продукта",
+      "categoryId": "data",
+      "teacher": "Олег Наумов",
+      "level": "beginner",
+      "description": "Метрики, когорты, воронки и как не соврать себе графиком.",
+      "hours": 12,
+      "rating": 4.05,
+      "reviews": 87,
+      "price": 0,
+      "seatsLeft": 100,
+      "updatedAt": "2026-06-11",
+      "tags": [
+        "Метрики",
+        "Когорты"
+      ],
+      "lessons": [
+        {
+          "id": "c4l1",
+          "title": "Что считать продуктовой метрикой",
+          "minutes": 26,
+          "free": true
+        }
+      ],
+      "lessonsTotal": 1,
+      "enrolled": false,
+      "lessonsDone": 0,
+      "averageScore": 0
+    },
+    {
+      "id": "c5",
+      "title": "Интерфейсы в Figma: сетки и типографика",
+      "categoryId": "design",
+      "teacher": "Полина Ким",
+      "level": "middle",
+      "description": "Модульная сетка, шкала кеглей, состояния компонентов и передача макета в разработку.",
+      "hours": 20,
+      "rating": 4.7,
+      "reviews": 203,
+      "price": 13800,
+      "oldPrice": 16500,
+      "seatsLeft": 0,
+      "updatedAt": "2026-08-30",
+      "tags": [
+        "Figma",
+        "Сетка",
+        "Типографика"
+      ],
+      "lessons": [
+        {
+          "id": "c5l1",
+          "title": "Модульная сетка",
+          "minutes": 24,
+          "free": true
+        },
+        {
+          "id": "c5l2",
+          "title": "Шкала кеглей",
+          "minutes": 19,
+          "free": false
+        },
+        {
+          "id": "c5l3",
+          "title": "Компоненты и состояния",
+          "minutes": 33,
+          "free": false
+        },
+        {
+          "id": "c5l4",
+          "title": "Отдача в разработку",
+          "minutes": 28,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 4,
+      "enrolled": false,
+      "lessonsDone": 0,
+      "averageScore": 0
+    },
+    {
+      "id": "c6",
+      "title": "Моушен для интерфейсов",
+      "categoryId": "design",
+      "teacher": "Полина Ким",
+      "level": "advanced",
+      "description": "Тайминги, кривые, переходы состояний и когда анимацию лучше выключить.",
+      "hours": 16,
+      "rating": 5,
+      "reviews": 41,
+      "price": 17600,
+      "seatsLeft": 6,
+      "updatedAt": "2026-09-04",
+      "tags": [
+        "Анимация",
+        "UX"
+      ],
+      "lessons": [
+        {
+          "id": "c6l1",
+          "title": "Тайминги и кривые",
+          "minutes": 21,
+          "free": true
+        },
+        {
+          "id": "c6l2",
+          "title": "Переходы состояний",
+          "minutes": 37,
+          "free": false
+        },
+        {
+          "id": "c6l3",
+          "title": "Доступность и prefers-reduced-motion",
+          "minutes": 16,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 3,
+      "enrolled": true,
+      "lessonsDone": 0,
+      "averageScore": 0
+    },
+    {
+      "id": "c7",
+      "title": "Android на Kotlin: первое приложение",
+      "categoryId": "mobile",
+      "teacher": "Сергей Балашов",
+      "level": "beginner",
+      "description": "Экраны, списки, навигация и работа с сетью в Android-приложении.",
+      "hours": 28,
+      "rating": 4.4,
+      "reviews": 176,
+      "price": 14300,
+      "seatsLeft": 9,
+      "updatedAt": "2026-05-22",
+      "tags": [
+        "Kotlin",
+        "Android",
+        "Compose"
+      ],
+      "lessons": [
+        {
+          "id": "c7l1",
+          "title": "Проект и первый экран",
+          "minutes": 30,
+          "free": true
+        },
+        {
+          "id": "c7l2",
+          "title": "Списки в Compose",
+          "minutes": 34,
+          "free": false
+        },
+        {
+          "id": "c7l3",
+          "title": "Навигация",
+          "minutes": 25,
+          "free": false
+        },
+        {
+          "id": "c7l4",
+          "title": "Запросы к API",
+          "minutes": 44,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 4,
+      "enrolled": false,
+      "lessonsDone": 0,
+      "averageScore": 0
+    },
+    {
+      "id": "c8",
+      "title": "iOS: SwiftUI и состояние",
+      "categoryId": "mobile",
+      "teacher": "Ирина Соловьёва",
+      "level": "middle",
+      "description": "Декларативные экраны, состояние, списки и адаптация под разные размеры.",
+      "hours": 22,
+      "rating": 4.65,
+      "reviews": 94,
+      "price": 16900,
+      "oldPrice": 21000,
+      "seatsLeft": 2,
+      "updatedAt": "2026-08-02",
+      "tags": [
+        "Swift",
+        "SwiftUI"
+      ],
+      "lessons": [
+        {
+          "id": "c8l1",
+          "title": "Первый экран",
+          "minutes": 20,
+          "free": true
+        },
+        {
+          "id": "c8l2",
+          "title": "State и Binding",
+          "minutes": 36,
+          "free": false
+        },
+        {
+          "id": "c8l3",
+          "title": "Списки и переходы",
+          "minutes": 29,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 3,
+      "enrolled": true,
+      "lessonsDone": 2,
+      "averageScore": 68
+    },
+    {
+      "id": "c9",
+      "title": "Вёрстка без макета: адаптив и краевые случаи",
+      "categoryId": "web",
+      "teacher": "Дмитрий Ершов",
+      "level": "advanced",
+      "description": "Длинные строки, пустые состояния, узкие экраны и таблицы, которые распирают страницу.",
+      "hours": 14,
+      "rating": 4.9,
+      "reviews": 65,
+      "price": 9900,
+      "seatsLeft": 15,
+      "updatedAt": "2026-09-06",
+      "tags": [
+        "CSS",
+        "Адаптив",
+        "Grid"
+      ],
+      "lessons": [
+        {
+          "id": "c9l1",
+          "title": "Переполнение и min-width",
+          "minutes": 23,
+          "free": true
+        },
+        {
+          "id": "c9l2",
+          "title": "Пустые состояния",
+          "minutes": 17,
+          "free": false
+        },
+        {
+          "id": "c9l3",
+          "title": "Экран 320 px",
+          "minutes": 26,
+          "free": false
+        },
+        {
+          "id": "c9l4",
+          "title": "Таблицы и скролл",
+          "minutes": 31,
+          "free": false
+        },
+        {
+          "id": "c9l5",
+          "title": "Тёмная тема на переменных",
+          "minutes": 24,
+          "free": false
+        },
+        {
+          "id": "c9l6",
+          "title": "Проверка на реальных данных",
+          "minutes": 19,
+          "free": false
+        },
+        {
+          "id": "c9l7",
+          "title": "Разбор чужой вёрстки",
+          "minutes": 42,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 7,
+      "enrolled": true,
+      "lessonsDone": 7,
+      "averageScore": 95
+    },
+    {
+      "id": "c10",
+      "title": "Python для обработки данных",
+      "categoryId": "data",
+      "teacher": "Марина Гурьева",
+      "level": "middle",
+      "description": "Чтение файлов, очистка, агрегации и выгрузка результата в отчёт.",
+      "hours": 26,
+      "rating": 4.55,
+      "reviews": 289,
+      "price": 13100,
+      "oldPrice": 15900,
+      "seatsLeft": 18,
+      "updatedAt": "2026-07-05",
+      "tags": [
+        "Python",
+        "pandas"
+      ],
+      "lessons": [
+        {
+          "id": "c10l1",
+          "title": "Чтение и первичный осмотр",
+          "minutes": 27,
+          "free": true
+        },
+        {
+          "id": "c10l2",
+          "title": "Очистка данных",
+          "minutes": 39,
+          "free": false
+        },
+        {
+          "id": "c10l3",
+          "title": "Группировки",
+          "minutes": 33,
+          "free": false
+        },
+        {
+          "id": "c10l4",
+          "title": "Выгрузка отчёта",
+          "minutes": 21,
+          "free": false
+        }
+      ],
+      "lessonsTotal": 4,
+      "enrolled": false,
+      "lessonsDone": 0,
+      "averageScore": 0
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t1",
+      "courseId": "c1",
+      "title": "Собрать форму регистрации без библиотек",
+      "kind": "assignment",
+      "dueDate": "2026-09-11",
+      "status": "in_progress",
+      "priority": "high"
+    },
+    {
+      "id": "t2",
+      "courseId": "c1",
+      "title": "Тест по хукам",
+      "kind": "quiz",
+      "dueDate": "2026-09-14",
+      "status": "not_started",
+      "priority": "medium"
+    },
+    {
+      "id": "t3",
+      "courseId": "c2",
+      "title": "Типизировать чужой модуль",
+      "kind": "assignment",
+      "dueDate": "2026-09-10",
+      "status": "submitted",
+      "priority": "high",
+      "submittedAt": "2026-09-08"
+    },
+    {
+      "id": "t4",
+      "courseId": "c2",
+      "title": "Дженерик-хелпер для форм",
+      "kind": "project",
+      "dueDate": "2026-09-22",
+      "status": "not_started",
+      "priority": "low"
+    },
+    {
+      "id": "t5",
+      "courseId": "c3",
+      "title": "Витрина продаж на оконных функциях",
+      "kind": "lab",
+      "dueDate": "2026-09-05",
+      "status": "graded",
+      "priority": "high",
+      "submittedAt": "2026-09-04",
+      "score": 88,
+      "feedback": "Запрос верный, но индекс по дате не использован. Разберите план выполнения."
+    },
+    {
+      "id": "t6",
+      "courseId": "c3",
+      "title": "Пять JOIN на реальных данных",
+      "kind": "assignment",
+      "dueDate": "2026-08-29",
+      "status": "graded",
+      "priority": "medium",
+      "submittedAt": "2026-08-28",
+      "score": 100,
+      "feedback": "Без замечаний."
+    },
+    {
+      "id": "t7",
+      "courseId": "c3",
+      "title": "Отчёт по когортам",
+      "kind": "project",
+      "dueDate": "2026-09-19",
+      "status": "in_progress",
+      "priority": "medium"
+    },
+    {
+      "id": "t8",
+      "courseId": "c6",
+      "title": "Разбор таймингов в чужом интерфейсе",
+      "kind": "assignment",
+      "dueDate": "2026-09-03",
+      "status": "not_started",
+      "priority": "high"
+    },
+    {
+      "id": "t9",
+      "courseId": "c8",
+      "title": "Экран списка на SwiftUI",
+      "kind": "assignment",
+      "dueDate": "2026-09-16",
+      "status": "in_progress",
+      "priority": "medium"
+    },
+    {
+      "id": "t10",
+      "courseId": "c8",
+      "title": "Тест по State и Binding",
+      "kind": "quiz",
+      "dueDate": "2026-09-12",
+      "status": "not_started",
+      "priority": "low"
+    },
+    {
+      "id": "t11",
+      "courseId": "c9",
+      "title": "Починить вёрстку на 320px",
+      "kind": "lab",
+      "dueDate": "2026-09-02",
+      "status": "graded",
+      "priority": "high",
+      "submittedAt": "2026-09-01",
+      "score": 73,
+      "feedback": "Скролл убран, но таблица теперь режет дату. Верните перенос только в шапке."
+    },
+    {
+      "id": "t12",
+      "courseId": "c9",
+      "title": "Пустые состояния для трёх экранов",
+      "kind": "assignment",
+      "dueDate": "2026-09-25",
+      "status": "not_started",
+      "priority": "low"
+    },
+    {
+      "id": "t13",
+      "courseId": "c9",
+      "title": "Тёмная тема на переменных",
+      "kind": "project",
+      "dueDate": "2026-09-30",
+      "status": "not_started",
+      "priority": "medium"
+    },
+    {
+      "id": "t14",
+      "courseId": "c1",
+      "title": "Роутинг с вложенными маршрутами",
+      "kind": "assignment",
+      "dueDate": "2026-09-08",
+      "status": "submitted",
+      "priority": "medium",
+      "submittedAt": "2026-09-07"
+    },
+    {
+      "id": "t15",
+      "courseId": "c6",
+      "title": "Конспект по кривым Безье",
+      "kind": "assignment",
+      "dueDate": "2026-09-09",
+      "status": "not_started",
+      "priority": "medium"
+    }
+  ],
+  "resources": [
+    {
+      "id": "r1",
+      "courseId": "c1",
+      "title": "Конспект: жизненный цикл компонента",
+      "kind": "pdf",
+      "sizeKb": 840,
+      "addedAt": "2026-08-20",
+      "author": "Алина Ковалёва"
+    },
+    {
+      "id": "r2",
+      "courseId": "c1",
+      "title": "Запись занятия: формы",
+      "kind": "video",
+      "addedAt": "2026-08-27",
+      "author": "Алина Ковалёва"
+    },
+    {
+      "id": "r3",
+      "courseId": "c1",
+      "title": "Стартовый репозиторий",
+      "kind": "code",
+      "sizeKb": 126,
+      "addedAt": "2026-08-14",
+      "author": "Алина Ковалёва"
+    },
+    {
+      "id": "r4",
+      "courseId": "c2",
+      "title": "Шпаргалка по утилитарным типам",
+      "kind": "pdf",
+      "sizeKb": 410,
+      "addedAt": "2026-09-01",
+      "author": "Дмитрий Ершов"
+    },
+    {
+      "id": "r5",
+      "courseId": "c2",
+      "title": "Документация TypeScript",
+      "kind": "link",
+      "addedAt": "2026-07-19",
+      "author": "Дмитрий Ершов"
+    },
+    {
+      "id": "r6",
+      "courseId": "c3",
+      "title": "Дамп учебной базы",
+      "kind": "dataset",
+      "sizeKb": 15400,
+      "addedAt": "2026-07-30",
+      "author": "Марина Гурьева"
+    },
+    {
+      "id": "r7",
+      "courseId": "c3",
+      "title": "Разбор планов выполнения",
+      "kind": "video",
+      "addedAt": "2026-08-08",
+      "author": "Марина Гурьева"
+    },
+    {
+      "id": "r8",
+      "courseId": "c6",
+      "title": "Кривые и тайминги, таблица",
+      "kind": "pdf",
+      "sizeKb": 260,
+      "addedAt": "2026-09-04",
+      "author": "Полина Ким"
+    },
+    {
+      "id": "r9",
+      "courseId": "c8",
+      "title": "Примеры экранов SwiftUI",
+      "kind": "code",
+      "sizeKb": 2048,
+      "addedAt": "2026-08-02",
+      "author": "Ирина Соловьёва"
+    },
+    {
+      "id": "r10",
+      "courseId": "c9",
+      "title": "Чеклист проверки на 320px",
+      "kind": "pdf",
+      "sizeKb": 95,
+      "addedAt": "2026-09-06",
+      "author": "Дмитрий Ершов"
+    },
+    {
+      "id": "r11",
+      "courseId": "c9",
+      "title": "Запись разбора чужой вёрстки",
+      "kind": "video",
+      "addedAt": "2026-09-07",
+      "author": "Дмитрий Ершов"
+    },
+    {
+      "id": "r12",
+      "courseId": "c10",
+      "title": "Тетрадь с примерами pandas",
+      "kind": "code",
+      "sizeKb": 730,
+      "addedAt": "2026-07-05",
+      "author": "Марина Гурьева"
+    }
+  ],
+  "weeklyActivity": [
+    {
+      "label": "Веб-разработка",
+      "hours": 6.5,
+      "color": "accent"
+    },
+    {
+      "label": "Данные и аналитика",
+      "hours": 4,
+      "color": "info"
+    },
+    {
+      "label": "Дизайн",
+      "hours": 2.5,
+      "color": "pink"
+    },
+    {
+      "label": "Мобильная разработка",
+      "hours": 1.5,
+      "color": "violet"
+    },
+    {
+      "label": "Повторение",
+      "hours": 0.5,
+      "color": "ok"
+    }
+  ],
+  "progress": [
+    {
+      "month": "2026-04",
+      "minutes": 620,
+      "tasksDone": 4
+    },
+    {
+      "month": "2026-05",
+      "minutes": 880,
+      "tasksDone": 6
+    },
+    {
+      "month": "2026-06",
+      "minutes": 540,
+      "tasksDone": 3
+    },
+    {
+      "month": "2026-07",
+      "minutes": 1210,
+      "tasksDone": 9
+    },
+    {
+      "month": "2026-08",
+      "minutes": 1460,
+      "tasksDone": 11
+    },
+    {
+      "month": "2026-09",
+      "minutes": 390,
+      "tasksDone": 2
+    }
+  ]
+}

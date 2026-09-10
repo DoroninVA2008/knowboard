@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { Navigate, NavLink, Route, Routes, useNavigate } from 'react-router-dom'
 import jsonData from './mock/data.json'
 import './App.scss'
 
@@ -151,6 +151,23 @@ const getCategoryMeta = (categoryId: string) =>
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const navigate = useNavigate()
+
+  // === ТЕМА ===
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('knowvio-theme')
+    if (saved === 'light' || saved === 'dark') return saved
+    return 'light'
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('knowvio-theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+  }
 
   const enrolledCourses = data.courses.filter((course) => course.enrolled)
   const completedTasks = data.tasks.filter(
@@ -188,6 +205,15 @@ function App() {
     })
   }, [searchQuery, selectedCategory])
 
+  const getPageTitle = () => {
+    const path = window.location.pathname
+    if (path.includes('/courses')) return 'Курсы'
+    if (path.includes('/tasks')) return 'Задачи'
+    if (path.includes('/resources')) return 'Материалы'
+    if (path.includes('/settings')) return 'Настройки'
+    return 'Обзор'
+  }
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -217,42 +243,97 @@ function App() {
         </nav>
 
         <div className="sidebar-user">
-          <div className="user-row">
-            <div className="user-avatar">{data.user.initials}</div>
-            <div className="user-meta">
-              <strong>{data.user.name}</strong>
-              <span>{data.user.role}</span>
-            </div>
-          </div>
-
           {data.user.trialDaysLeft > 0 && (
-            <div className="trial-box">
-              <span>🔥 {data.user.trialDaysLeft} дней пробного периода</span>
+            <div className="plan-card">
+              <div className="plan-header">
+                <span className="plan-title">
+                  <span className="crown-icon">👑</span>
+                  Тариф
+                </span>
+                <span className="plan-badge">
+                  {data.user.plan === 'free' ? 'Free' : 'Pro'}
+                </span>
+              </div>
+
+              <div className="plan-days">
+                <span>Осталось {data.user.trialDaysLeft} дн.</span>
+                <div className="plan-progress">
+                  <span
+                    className="plan-progress-fill"
+                    style={{
+                      width: `${Math.max(
+                        0,
+                        Math.min(100, (data.user.trialDaysLeft / 14) * 100),
+                      )}%`,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <p className="plan-hint">
+                Пробный период заканчивается, продлите доступ к курсам.
+              </p>
+
               <button type="button" className="upgrade-btn">
                 Перейти на Pro
               </button>
             </div>
           )}
+
+          <button
+            type="button"
+            className={`sidebar-row ${theme === 'dark' ? 'dark-active' : ''}`}
+            onClick={toggleTheme}
+            aria-pressed={theme === 'dark'}
+          >
+            <span className="row-icon">{theme === 'dark' ? '☀️' : '🌙'}</span>
+            <span className="row-label">
+              {theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
+            </span>
+            <span className="switch" aria-hidden="true">
+              <span className="switch-thumb" />
+            </span>
+          </button>
+
+          <button
+            type="button"
+            className="sidebar-row"
+            onClick={() => navigate('/settings')}
+          >
+            <span className="row-icon">⚙️</span>
+            <span className="row-label">Настройки</span>
+          </button>
+
+          <button type="button" className="sidebar-row logout">
+            <span className="row-icon">↪</span>
+            <span className="row-label">Выйти</span>
+          </button>
+
+          <div className="user-row">
+            <div className="user-avatar">{data.user.initials}</div>
+            <div className="user-meta">
+              <strong>{data.user.name}</strong>
+              <span>
+                {data.user.plan === 'free' ? 'Бесплатный тариф' : 'Pro тариф'}
+              </span>
+            </div>
+          </div>
         </div>
       </aside>
 
       <main className="content">
         <header className="topbar">
           <div>
-            <h1 className="page-title">
-              {window.location.pathname.includes('/courses') && 'Курсы'}
-              {window.location.pathname.includes('/tasks') && 'Задачи'}
-              {window.location.pathname.includes('/resources') && 'Материалы'}
-              {!window.location.pathname.includes('/courses') &&
-                !window.location.pathname.includes('/tasks') &&
-                !window.location.pathname.includes('/resources') &&
-                'Обзор'}
-            </h1>
+            <h1 className="page-title">{getPageTitle()}</h1>
             <p className="streak">🔥 {data.user.streakDays} дней подряд</p>
           </div>
 
           <div className="topbar-tools">
             <label className="search-box">
+                <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M20 20L16.5 16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
               <input
                 type="text"
                 value={searchQuery}
@@ -300,6 +381,16 @@ function App() {
           <Route
             path="/resources"
             element={<ResourcesPage resources={data.resources} />}
+          />
+          <Route
+            path="/settings"
+            element={
+              <SettingsPage
+                theme={theme}
+                toggleTheme={toggleTheme}
+                user={data.user}
+              />
+            }
           />
         </Routes>
       </main>
@@ -373,7 +464,7 @@ function DashboardPage({
                   className="activity-bar"
                   style={{
                     height: `${(item.hours / 7) * 100}%`,
-                    background: `var(--${item.color})`,
+                    background: `var(--app-${item.color}, var(--app-accent))`,
                   }}
                 />
               </div>
@@ -460,9 +551,7 @@ function CoursesPage({
 
           return (
             <article key={course.id} className="course-card">
-              <span
-                className={`course-category category-${category.color}`}
-              >
+              <span className={`course-category category-${category.color}`}>
                 {category.name}
               </span>
 
@@ -659,6 +748,188 @@ function ResourcesPage({ resources }: ResourcesPageProps) {
           </div>
         )
       })}
+    </div>
+  )
+}
+
+// === СТРАНИЦА НАСТРОЕК ===
+interface SettingsPageProps {
+  theme: 'light' | 'dark'
+  toggleTheme: () => void
+  user: User
+}
+
+function SettingsPage({ theme, toggleTheme, user }: SettingsPageProps) {
+  const courses = data.courses
+  const tasks = data.tasks
+  const resources = data.resources
+
+  const openCourses = courses.filter((c) => c.enrolled)
+
+  const lessonsDone = openCourses.reduce((sum, c) => sum + c.lessonsDone, 0)
+  const lessonsTotal = openCourses.reduce((sum, c) => sum + c.lessonsTotal, 0)
+
+  const progressPercent =
+    lessonsTotal > 0 ? Math.round((lessonsDone / lessonsTotal) * 100) : 0
+
+  const scored = openCourses.filter((c) => c.averageScore > 0)
+  const avgScore =
+    scored.length > 0
+      ? Math.round(
+          scored.reduce((sum, c) => sum + c.averageScore, 0) / scored.length,
+        )
+      : 0
+
+  const [emailDigest, setEmailDigest] = useState(true)
+  const [deadlineReminders, setDeadlineReminders] = useState(false)
+
+  const handleReset = () => {
+    const confirmed = window.confirm(
+      'Сбросить демо-данные? Все изменения в localStorage будут удалены.',
+    )
+    if (!confirmed) return
+
+    localStorage.removeItem('knowvio.db')
+    window.location.reload()
+  }
+
+  return (
+    <div className="settings-page">
+      <section className="welcome-banner">
+        <h2>С возвращением, {user.name.split(' ')[0]}!</h2>
+        <p>Сегодня пройдено 3 урока, продолжайте в том же темпе.</p>
+      </section>
+
+      <header className="settings-header">
+        <h1>Настройки</h1>
+        <p>Профиль, оповещения и демонстрационные данные.</p>
+      </header>
+    <div className="panels">
+      <section className="panel settings-card">
+        <h2>Профиль</h2>
+
+        <div className="profile-row">
+          <div className="profile-avatar">{user.initials}</div>
+          <div className="profile-info">
+            <div className="profile-plan">
+              Пробный период, {user.trialDaysLeft} дн.
+            </div>
+            <strong className="profile-name">{user.name}</strong>
+            <span className="profile-email">{user.email}</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="panel settings-card">
+        <h2>Оповещения</h2>
+
+        <div className="settings-row">
+          <div className="settings-row-text">
+            <strong>Дайджест на почту</strong>
+            <span>Раз в неделю: прогресс и ближайшие сроки.</span>
+          </div>
+          <button
+            type="button"
+            className={`switch ${emailDigest ? 'on' : ''}`}
+            onClick={() => setEmailDigest((v) => !v)}
+            aria-pressed={emailDigest}
+          >
+            <span className="switch-thumb" />
+          </button>
+        </div>
+
+        <div className="settings-row">
+          <div className="settings-row-text">
+            <strong>Напоминания о сроках</strong>
+            <span>За два дня до сдачи задания.</span>
+          </div>
+          <button
+            type="button"
+            className={`switch ${deadlineReminders ? 'on' : ''}`}
+            onClick={() => setDeadlineReminders((v) => !v)}
+            aria-pressed={deadlineReminders}
+          >
+            <span className="switch-thumb" />
+          </button>
+        </div>
+
+        <div className="settings-row">
+          <div className="settings-row-text">
+            <strong>Тёмная тема</strong>
+            <span>Тот же переключатель, что и в боковом меню.</span>
+          </div>
+          <button
+            type="button"
+            className={`switch ${theme === 'dark' ? 'on' : ''}`}
+            onClick={toggleTheme}
+            aria-pressed={theme === 'dark'}
+          >
+            <span className="switch-thumb" />
+          </button>
+        </div>
+      </section>
+
+      <section className="panel settings-card">
+        <h2>Пройдено по открытым курсам</h2>
+
+        <div className="progress-big">
+          <span className="progress-big-value">{progressPercent}%</span>
+          <div className="progress-big-bar">
+            <span style={{ width: `${progressPercent}%` }} />
+          </div>
+        </div>
+
+        <div className="mini-stats">
+          <div className="mini-stat">
+            <span>Курсов открыто</span>
+            <strong>{openCourses.length}</strong>
+          </div>
+          <div className="mini-stat">
+            <span>Уроков пройдено</span>
+            <strong>
+              {lessonsDone} из {lessonsTotal}
+            </strong>
+          </div>
+          <div className="mini-stat">
+            <span>Средний балл</span>
+            <strong>{avgScore}%</strong>
+          </div>
+          <div className="mini-stat">
+            <span>Серия занятий</span>
+            <strong>{user.streakDays} дн.</strong>
+          </div>
+        </div>
+      </section>
+
+      <section className="panel settings-card">
+        <h2>Данные</h2>
+
+        <p className="data-note">
+          Демо-режим: всё хранится в браузере. Изменения сохраняются в
+          localStorage под ключом <code>knowvio.db</code>. Сброс вернёт исходный
+          набор курсов, заданий и уведомлений.
+        </p>
+
+        <div className="mini-stats">
+          <div className="mini-stat">
+            <span>Курсов</span>
+            <strong>{courses.length}</strong>
+          </div>
+          <div className="mini-stat">
+            <span>Заданий</span>
+            <strong>{tasks.length}</strong>
+          </div>
+          <div className="mini-stat">
+            <span>Материалов</span>
+            <strong>{resources.length}</strong>
+          </div>
+        </div>
+
+        <button type="button" className="reset-btn" onClick={handleReset}>
+          Сбросить демо-данные
+        </button>
+      </section>
+      </div>
     </div>
   )
 }

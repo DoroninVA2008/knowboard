@@ -1,19 +1,92 @@
-$app-bg: #f4f2ef;
-$app-card: #ffffff;
-$app-panel: #faf9f7;
-$app-line: #e9e5e0;
-$app-text: #17161a;
-$app-muted: #74707a;
-$app-soft: #a19da8;
-$app-accent: #f5761a;
-$app-accent-dark: #d95f0c;
-$app-accent-soft: #fff1e6;
-$app-info: #2f7ef0;
-$app-pink: #e0399a;
-$app-violet: #7c5cf0;
-$app-success: #16a34a;
-$app-warning: #d97706;
-$app-danger: #dc2626;
+/* ========== CSS-ПЕРЕМЕННЫЕ (для тёмной темы) ========== */
+:root {
+  --app-bg: #f4f2ef;
+  --app-card: #ffffff;
+  --app-panel: #faf9f7;
+  --app-line: #e9e5e0;
+  --app-text: #17161a;
+  --app-muted: #74707a;
+  --app-soft: #a19da8;
+  --app-accent: #f5761a;
+  --app-accent-dark: #d95f0c;
+  --app-accent-soft: #fff1e6;
+  --app-info: #2f7ef0;
+  --app-pink: #e0399a;
+  --app-violet: #7c5cf0;
+  --app-success: #16a34a;
+  --app-warning: #d97706;
+  --app-danger: #dc2626;
+  --app-input-bg: #ffffff;
+}
+
+[data-theme='dark'] {
+  --app-bg: #131316;
+  --app-card: #1a1a1f;
+  --app-panel: #202026;
+  --app-line: #2c2c33;
+  --app-text: #f2f1f5;
+  --app-muted: #9e9aa8;
+  --app-soft: #6f6b7a;
+  --app-accent: #ff8a3d;
+  --app-accent-dark: #ffa76b;
+  --app-accent-soft: #33210f;
+  --app-info: #6ea8ff;
+  --app-pink: #f472b6;
+  --app-violet: #a78bfa;
+  --app-success: #4ade80;
+  --app-warning: #fbbf24;
+  --app-danger: #f87171;
+  --app-input-bg: #202026;
+}
+
+/* ========== SCSS-ПЕРЕМЕННЫЕ (ссылки на CSS-переменные) ========== */
+$app-bg: var(--app-bg);
+$app-card: var(--app-card);
+$app-panel: var(--app-panel);
+$app-line: var(--app-line);
+$app-text: var(--app-text);
+$app-muted: var(--app-muted);
+$app-soft: var(--app-soft);
+$app-accent: var(--app-accent);
+$app-accent-dark: var(--app-accent-dark);
+$app-accent-soft: var(--app-accent-soft);
+$app-info: var(--app-info);
+$app-pink: var(--app-pink);
+$app-violet: var(--app-violet);
+$app-success: var(--app-success);
+$app-warning: var(--app-warning);
+$app-danger: var(--app-danger);
+
+/* ========== БАЗА ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: $app-bg;
+  color: $app-text;
+}
+
+/* Плавная смена темы */
+body,
+.app-shell,
+.sidebar,
+.panel,
+.stat-card,
+.course-card,
+.task-card,
+.resource-item,
+.plan-card,
+.user-row,
+.sidebar-row,
+.settings-card,
+.welcome-banner {
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease;
+}
 
 .app-shell {
   display: flex;
@@ -22,10 +95,10 @@ $app-danger: #dc2626;
   color: $app-text;
 }
 
+/* ========== SIDEBAR ========== */
 .sidebar {
   width: 240px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
+  background: $app-card;
   border-right: 1px solid $app-line;
   display: flex;
   flex-direction: column;
@@ -55,6 +128,7 @@ $app-danger: #dc2626;
   .brand-name {
     font-size: 1.05rem;
     font-weight: 700;
+    color: $app-text;
   }
 }
 
@@ -73,6 +147,7 @@ $app-danger: #dc2626;
     border-radius: 10px;
     color: $app-muted;
     font-weight: 500;
+    text-decoration: none;
     transition: 0.2s ease;
 
     &:hover {
@@ -97,7 +172,7 @@ $app-danger: #dc2626;
       place-items: center;
       padding: 0 7px;
       background: $app-accent;
-      color: white;
+      color: #fff;
       border-radius: 999px;
       font-size: 0.7rem;
       font-weight: 700;
@@ -105,35 +180,224 @@ $app-danger: #dc2626;
   }
 }
 
+/* ========== SIDEBAR USER ========== */
 .sidebar-user {
-  border-top: 1px solid $app-line;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding-top: 16px;
+}
 
-  .user-row {
+/* Карточка тарифа */
+.plan-card {
+  background: $app-card;
+  border: 1px solid $app-line;
+  border-radius: 14px;
+  padding: 14px;
+
+  .plan-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .plan-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: $app-text;
+
+      .crown-icon {
+        font-size: 0.95rem;
+      }
+    }
+
+    .plan-badge {
+      background: $app-accent;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
   }
+
+  .plan-days {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    > span {
+      font-size: 0.72rem;
+      color: $app-muted;
+      white-space: nowrap;
+    }
+
+    .plan-progress {
+      flex: 1;
+      height: 6px;
+      background: $app-line;
+      border-radius: 999px;
+      overflow: hidden;
+
+      .plan-progress-fill {
+        display: block;
+        height: 100%;
+        background: $app-accent;
+        border-radius: inherit;
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  .plan-hint {
+    margin: 0 0 12px;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: $app-muted;
+  }
+
+  .upgrade-btn {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: $app-text;
+    color: $app-bg;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.82rem;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+/* Строки меню */
+.sidebar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: $app-muted;
+  font-size: 0.86rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: $app-panel;
+    color: $app-text;
+  }
+
+  .row-icon {
+    font-size: 1rem;
+    width: 18px;
+    text-align: center;
+  }
+
+  .row-label {
+    flex: 1;
+  }
+
+  &.dark-active {
+    color: $app-accent;
+
+    .switch {
+      background: $app-accent;
+
+      .switch-thumb {
+        transform: translateX(18px);
+      }
+    }
+  }
+}
+
+/* Свитч */
+.switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: $app-line;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+
+  .switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+  }
+
+  &.on {
+    background: $app-accent;
+
+    .switch-thumb {
+      transform: translateX(18px);
+    }
+  }
+}
+
+.sidebar-row .switch {
+  pointer-events: none;
+}
+
+/* Карточка пользователя */
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid $app-line;
+  border-radius: 14px;
+  background: $app-card;
 
   .user-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, $app-violet, #9c8af6);
-    color: white;
+    font-weight: 700;
+    background: $app-accent-soft;
+    color: $app-accent;
     display: grid;
     place-items: center;
-    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
   }
 
   .user-meta {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    min-width: 0;
 
     strong {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: $app-text;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     span {
@@ -141,37 +405,9 @@ $app-danger: #dc2626;
       color: $app-muted;
     }
   }
-
-  .trial-box {
-    background: $app-accent-soft;
-    border-radius: 12px;
-    padding: 12px 10px;
-
-    span {
-      display: block;
-      color: $app-accent;
-      font-size: 0.76rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .upgrade-btn {
-      width: 100%;
-      padding: 9px 10px;
-      border: none;
-      background: $app-accent;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-
-      &:hover {
-        background: $app-accent-dark;
-      }
-    }
-  }
 }
 
+/* ========== CONTENT ========== */
 .content {
   flex: 1;
   padding: 26px 26px 32px;
@@ -188,6 +424,7 @@ $app-danger: #dc2626;
     margin: 0;
     font-size: clamp(1.8rem, 2vw, 2.7rem);
     line-height: 1.1;
+    color: $app-text;
   }
 
   .streak {
@@ -204,18 +441,45 @@ $app-danger: #dc2626;
   }
 
   .search-box {
-    input {
+      padding: 7px 14px;
       width: 240px;
+      border-radius: 10px;
       border: 1px solid $app-line;
       background: $app-card;
-      border-radius: 10px;
-      padding: 11px 14px;
+      color: $app-text;
+
+    input {
       font-size: 0.92rem;
+      background: $app-card;
+      color: $app-text;
+      border: none;
 
       &:focus {
-        outline: 2px solid rgba($app-accent, 0.15);
+        outline: none;
+        border-color: none;
+      }
+
+      &:focus
+      + .search-box {
+        outline: 2px solid rgba(245, 118, 26, 0.15);
         border-color: $app-accent;
       }
+    }
+
+      &:focus {
+        outline: 2px solid rgba(245, 118, 26, 0.15);
+        border-color: $app-accent;
+      }
+
+    .search-icon {
+      margin-right: 10px;
+      position: relative;
+      padding-top: 2%;
+      justify-content: center;
+      place-items: center;
+      place-self: center;
+      align-self: center;
+      align-items: center;
     }
   }
 
@@ -225,10 +489,12 @@ $app-danger: #dc2626;
     border-radius: 10px;
     border: 1px solid $app-line;
     background: $app-card;
+    color: $app-text;
     cursor: pointer;
   }
 }
 
+/* ========== ОБЩИЕ СТРАНИЦЫ ========== */
 .dashboard-page,
 .courses-page,
 .task-board,
@@ -253,7 +519,6 @@ $app-danger: #dc2626;
       color: $app-muted;
       font-size: 0.75rem;
       margin-bottom: 10px;
-      letter-spacing: 0.01em;
     }
 
     .stat-value {
@@ -261,6 +526,7 @@ $app-danger: #dc2626;
       font-weight: 700;
       line-height: 1.1;
       margin-bottom: 4px;
+      color: $app-text;
     }
 
     .stat-subtitle {
@@ -268,6 +534,12 @@ $app-danger: #dc2626;
       font-size: 0.72rem;
     }
   }
+}
+
+.panels {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 0.25rem * 4;
+    display: grid;
 }
 
 .panel {
@@ -279,9 +551,11 @@ $app-danger: #dc2626;
   h2 {
     margin: 0 0 18px;
     font-size: 1.14rem;
+    color: $app-text;
   }
 }
 
+/* ========== АКТИВНОСТЬ ========== */
 .activity-chart {
   display: grid;
   grid-template-columns: repeat(5, minmax(72px, 1fr));
@@ -318,6 +592,7 @@ $app-danger: #dc2626;
       span {
         font-size: 0.8rem;
         font-weight: 700;
+        color: $app-text;
       }
 
       small {
@@ -328,6 +603,7 @@ $app-danger: #dc2626;
   }
 }
 
+/* ========== СПИСОК ЗАДАЧ ========== */
 .task-list {
   display: flex;
   flex-direction: column;
@@ -340,7 +616,7 @@ $app-danger: #dc2626;
     padding: 14px 12px;
     border: 1px solid $app-line;
     border-radius: 12px;
-    background: #fffdfb;
+    background: $app-panel;
 
     .task-priority {
       width: 4px;
@@ -367,6 +643,7 @@ $app-danger: #dc2626;
         display: block;
         margin-bottom: 4px;
         font-size: 0.92rem;
+        color: $app-text;
       }
     }
 
@@ -408,6 +685,7 @@ $app-danger: #dc2626;
   }
 }
 
+/* ========== ФИЛЬТРЫ ========== */
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -430,11 +708,12 @@ $app-danger: #dc2626;
     &.active {
       background: $app-accent;
       border-color: $app-accent;
-      color: white;
+      color: #fff;
     }
   }
 }
 
+/* ========== КАРТОЧКИ КУРСОВ ========== */
 .course-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -480,6 +759,7 @@ $app-danger: #dc2626;
     margin: 0 0 10px;
     font-size: 1.04rem;
     line-height: 1.4;
+    color: $app-text;
   }
 
   .course-desc {
@@ -509,6 +789,7 @@ $app-danger: #dc2626;
     strong {
       text-align: right;
       font-size: 0.78rem;
+      color: $app-text;
     }
   }
 
@@ -551,7 +832,7 @@ $app-danger: #dc2626;
         display: block;
         height: 100%;
         border-radius: inherit;
-        background: linear-gradient(90deg, $app-accent, #ff9b52);
+        background: linear-gradient(90deg, #f5761a, #ff9b52);
       }
     }
 
@@ -577,6 +858,7 @@ $app-danger: #dc2626;
       .current-price {
         font-size: 1rem;
         font-weight: 700;
+        color: $app-text;
       }
 
       .old-price {
@@ -595,7 +877,7 @@ $app-danger: #dc2626;
     .enroll-btn {
       border: none;
       background: $app-accent;
-      color: white;
+      color: #fff;
       padding: 9px 14px;
       border-radius: 10px;
       font-weight: 600;
@@ -624,8 +906,9 @@ $app-danger: #dc2626;
   }
 }
 
+/* ========== КАНБАН ЗАДАЧ ========== */
 .task-board {
-  display: grid;
+  // display: grid;
   grid-template-columns: repeat(4, minmax(220px, 1fr));
   gap: 18px;
 
@@ -643,7 +926,7 @@ $app-danger: #dc2626;
   }
 
   .task-card {
-    background: #fffdfb;
+    background: $app-panel;
     border: 1px solid $app-line;
     border-radius: 12px;
     padding: 12px;
@@ -728,6 +1011,7 @@ $app-danger: #dc2626;
       margin: 0 0 8px;
       font-size: 0.88rem;
       line-height: 1.5;
+      color: $app-text;
     }
 
     .course-name {
@@ -746,6 +1030,7 @@ $app-danger: #dc2626;
 
     .feedback {
       color: $app-text;
+
       strong {
         color: $app-text;
       }
@@ -753,6 +1038,7 @@ $app-danger: #dc2626;
   }
 }
 
+/* ========== РЕСУРСЫ ========== */
 .resources-page {
   .resource-item {
     display: flex;
@@ -779,6 +1065,7 @@ $app-danger: #dc2626;
       strong {
         display: block;
         margin-bottom: 4px;
+        color: $app-text;
       }
 
       p {
@@ -807,7 +1094,7 @@ $app-danger: #dc2626;
     .download-btn {
       border: none;
       background: $app-accent;
-      color: white;
+      color: #fff;
       padding: 9px 14px;
       border-radius: 10px;
       cursor: pointer;
@@ -820,6 +1107,228 @@ $app-danger: #dc2626;
   }
 }
 
+/* ========== СТРАНИЦА НАСТРОЕК ========== */
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 40px;
+}
+
+.welcome-banner {
+  background: $app-card;
+  border-radius: 18px;
+  padding: 22px 24px;
+  box-shadow: 0 2px 10px rgba(20, 20, 30, 0.04);
+
+  h2 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    color: $app-text;
+  }
+
+  p {
+    margin: 0;
+    color: $app-muted;
+    font-size: 0.85rem;
+  }
+}
+
+.settings-header {
+  margin-top: 4px;
+
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(1.6rem, 2vw, 2.2rem);
+    color: $app-text;
+  }
+
+  p {
+    margin: 0;
+    color: $app-muted;
+    font-size: 0.85rem;
+  }
+}
+
+.settings-card {
+  background: $app-card;
+  border-radius: 18px;
+  padding: 20px 22px;
+  box-shadow: 0 2px 10px rgba(20, 20, 30, 0.04);
+
+  h2 {
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    color: $app-text;
+  }
+}
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: $app-accent-soft;
+  color: $app-accent;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+
+  .profile-plan {
+    font-size: 0.7rem;
+    color: $app-accent;
+    background: $app-accent-soft;
+    padding: 3px 8px;
+    border-radius: 999px;
+    align-self: flex-start;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .profile-name {
+    font-size: 0.95rem;
+    color: $app-text;
+  }
+
+  .profile-email {
+    font-size: 0.78rem;
+    color: $app-muted;
+  }
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid $app-line;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .settings-row-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    strong {
+      font-size: 0.9rem;
+      color: $app-text;
+    }
+
+    span {
+      font-size: 0.75rem;
+      color: $app-muted;
+    }
+  }
+}
+
+.progress-big {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  .progress-big-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: $app-text;
+    line-height: 1;
+  }
+
+  .progress-big-bar {
+    height: 10px;
+    background: $app-panel;
+    border-radius: 999px;
+    overflow: hidden;
+
+    span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #f5761a, #ff9b52);
+      border-radius: inherit;
+      transition: width 0.4s ease;
+    }
+  }
+}
+
+.mini-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.mini-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: $app-panel;
+  border-radius: 12px;
+
+  span {
+    font-size: 0.7rem;
+    color: $app-muted;
+  }
+
+  strong {
+    font-size: 1.05rem;
+    color: $app-text;
+  }
+}
+
+.data-note {
+  margin: 0 0 16px;
+  font-size: 0.82rem;
+  color: $app-muted;
+  line-height: 1.55;
+
+  code {
+    background: $app-panel;
+    color: $app-text;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-family: 'Menlo', 'Consolas', monospace;
+  }
+}
+
+.reset-btn {
+  margin-top: 16px;
+  padding: 10px 18px;
+  background: transparent;
+  color: $app-danger;
+  border: 1px solid $app-danger;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: $app-danger;
+    color: #fff;
+  }
+}
+
+/* ========== АДАПТИВ ========== */
 @media (max-width: 1100px) {
   .stats-grid {
     grid-template-columns: repeat(2, minmax(180px, 1fr));
@@ -886,6 +1395,23 @@ $app-danger: #dc2626;
 
     .download-btn {
       width: 100%;
+    }
+  }
+
+  .mini-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile-row {
+    align-items: flex-start;
+  }
+
+  .settings-row {
+    align-items: flex-start;
+    flex-direction: column;
+
+    .switch {
+      align-self: flex-end;
     }
   }
 }

@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тестовое задание: учебный кабинет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --app-bg:#f4f2ef; --surface:#fff; --surface-soft:#faf9f7; --surface-inset:#f4f2ef;
+    --border:#e9e5e0; --border-soft:#f1eeea;
+    --text:#17161a; --text-muted:#74707a; --text-faint:#a19da8;
+    --accent:#f5761a; --accent-soft:#fff1e6; --accent-strong:#d95f0c;
+    --ok:#16a34a; --ok-soft:#e7f6ec; --info:#2f7ef0; --info-soft:#e8f0fe;
+    --warn:#d97706; --warn-soft:#fdf1dc; --pink:#e0399a; --pink-soft:#fde8f4;
+    --violet:#7c5cf0; --violet-soft:#eee9fe;
+    --radius-card:16px; --radius-control:10px;
+    --shadow-card:0 1px 2px rgba(20,18,26,.04), 0 8px 24px -16px rgba(20,18,26,.18);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--app-bg);color:var(--text);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 20px 72px}
+  header.top{margin-bottom:28px}
+  h1{font-size:30px;line-height:1.25;margin:0 0 8px;font-weight:700;letter-spacing:-.02em}
+  .lead{color:var(--text-muted);margin:0}
+  .deadline{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    background:var(--accent-soft);color:var(--accent-strong);border:1px solid #f6d9c0;
+    border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600}
+  section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);
+    box-shadow:var(--shadow-card);padding:24px;margin-top:20px}
+  h2{font-size:19px;line-height:1.3;margin:0 0 4px;font-weight:600}
+  h2 .num{color:var(--text-faint);font-weight:500;margin-right:8px}
+  .hint{color:var(--text-muted);font-size:13.5px;margin:0 0 16px}
+  h3{font-size:14px;margin:22px 0 8px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.04em;color:var(--text-muted)}
+  h3:first-of-type{margin-top:0}
+  ul{margin:0;padding-left:20px}
+  li{margin:6px 0}
+  li::marker{color:var(--text-faint)}
+  code{background:var(--surface-inset);border:1px solid var(--border-soft);border-radius:6px;
+    padding:1px 6px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  a{color:var(--accent-strong)}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;margin:0}
+  th{text-align:left;font-weight:500;color:var(--text-muted);background:var(--surface-soft);
+    padding:9px 12px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);white-space:nowrap}
+  th:first-child{border-left:1px solid var(--border);border-radius:8px 0 0 8px}
+  th:last-child{border-right:1px solid var(--border);border-radius:0 8px 8px 0}
+  td{padding:9px 12px;border-bottom:1px solid var(--border-soft);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+  .scroll{overflow-x:auto}
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin:0}
+  .sw{border:1px solid var(--border);border-radius:var(--radius-control);overflow:hidden;background:var(--surface-soft)}
+  .sw .chip{height:52px}
+  .sw .meta{padding:7px 10px}
+  .sw .name{font-size:12px;font-weight:600;display:block}
+  .sw .val{font-size:11.5px;color:var(--text-muted);font-family:ui-monospace,Menlo,monospace}
+  .note{border-left:3px solid var(--accent);background:var(--accent-soft);
+    border-radius:0 10px 10px 0;padding:12px 16px;margin:16px 0 0;font-size:13.5px}
+  .stop{border-left-color:#d13d3d;background:#fdeceb}
+  .files{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+  .files li{display:flex;gap:10px;align-items:baseline;margin:0;background:var(--surface-soft);
+    border:1px solid var(--border-soft);border-radius:10px;padding:10px 12px;font-size:13.5px}
+  .files .f{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600;white-space:nowrap}
+  footer{color:var(--text-faint);font-size:12.5px;text-align:center;margin-top:28px}
+  @media (max-width:640px){ .wrap{padding:24px 14px 48px} h1{font-size:24px} section{padding:18px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Тестовое задание: учебный кабинет</h1>
+  <p class="lead">Личный кабинет студента образовательной платформы на мок-данных: восемь экранов, графики, светлая и тёмная тема. Бэкенда нет, авторизации нет.</p>
+  <div class="deadline">Срок: 48 часов с момента отправки задания</div>
+</header>
+
+<section>
+  <h2><span class="num">01</span>Задача</h2>
+  <p class="hint">Что нужно сделать и в каких рамках.</p>
+  <p style="margin:0 0 12px">Собрать учебный кабинет студента: восемь экранов с общей оболочкой,
+  живыми фильтрами, графиками и сохранением состояния. Все данные берутся из приложенного
+  <code>mock/data.json</code>: пользователь, 4 категории, 10 курсов, 40 уроков, 15 заданий,
+  12 материалов, ряд активности и помесячный прогресс. Ни одно значение из этого файла
+  не дублируется в коде.</p>
+  <p style="margin:0 0 12px">Композицию каждого экрана вы определяете сами. Готового макета нет
+  намеренно: решение о раскладке - часть задания. Обязателен набор экранов и функций ниже,
+  соответствие дизайн-системе из раздела 04 и визуальное родство с референсом из раздела 05.</p>
+
+  <h3>Экраны</h3>
+  <div class="scroll">
+  <table>
+    <tr><th>Адрес</th><th>Что на нём</th></tr>
+    <tr><td class="mono">/</td><td>Обзор: сводка показателей, график прогресса по месяцам, кольцевая диаграмма активности, ближайшие дедлайны, продолжить обучение</td></tr>
+    <tr><td class="mono">/courses</td><td>Каталог курсов: поиск, фильтр по категории, переключатель "Все / Мои / Доступные", сортировка</td></tr>
+    <tr><td class="mono">/courses/my</td><td>Тот же каталог, сразу с выбранными "Мои". Отдельный адрес, а не состояние кнопки</td></tr>
+    <tr><td class="mono">/courses/:id</td><td>Курс: прогресс по урокам, список уроков, задания курса, материалы курса, запись на курс</td></tr>
+    <tr><td class="mono">/categories</td><td>Категории с поиском и счётчиками курсов и часов</td></tr>
+    <tr><td class="mono">/assignments/:tab</td><td>Задания по вкладкам: текущие, отправленные, проверенные. Адрес <code>/assignments</code> уводит на вкладку текущих</td></tr>
+    <tr><td class="mono">/resources</td><td>Материалы: поиск, фильтр по курсу, фильтр по типу</td></tr>
+    <tr><td class="mono">/settings</td><td>Настройки: профиль, оповещения, тема, сброс демо-данных</td></tr>
+    <tr><td class="mono">любой другой</td><td>Заглушка "страница не найдена" со ссылкой на обзор</td></tr>
+  </table>
+  </div>
+
+  <h3>Стек</h3>
+  <ul>
+    <li>React 19 + TypeScript, сборка Vite.</li>
+    <li>Роутинг: react-router 7 или своё решение на History API, на выбор.</li>
+    <li>Стилизация на выбор: Tailwind 4 или обычный CSS.</li>
+    <li>Графики: recharts или своя отрисовка на SVG, на выбор. Картинками не подменять.</li>
+    <li>Готовые UI-киты запрещены: MUI, Ant Design, Bootstrap, shadcn, готовые шаблоны. Компоненты пишем свои.</li>
+    <li>Иконки: <code>lucide-react</code>. Шрифт: Inter.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">02</span>Что должно работать</h2>
+  <p class="hint">Обязательный набор. Как это разложено внутри экранов - ваше решение.</p>
+
+  <h3>Оболочка</h3>
+  <ul>
+    <li><b>Боковая панель.</b> Навигация по всем разделам, текущий пункт подсвечен, на телефоне панель
+      выезжает поверх страницы и закрывается по клику вне её. Пока она открыта, страница под ней не
+      прокручивается.</li>
+    <li><b>Верхняя панель.</b> Глобальный поиск по курсам, заданиям и материалам с выпадающими
+      подсказками: клик по подсказке ведёт на нужный экран. Кнопка смены темы, аватар с инициалами
+      пользователя из данных.</li>
+    <li><b>Тёмная тема.</b> Полноценная, на переменных: переключается кнопкой, применяется ко всем
+      экранам и графикам, переживает перезагрузку страницы.</li>
+    <li><b>Сохранение состояния.</b> Тема, отметки о пройденных уроках, записи на курсы, статусы
+      заданий и правки профиля сохраняются в браузере и восстанавливаются после F5. В настройках
+      есть сброс демо-данных, возвращающий всё к исходному файлу.</li>
+  </ul>
+
+  <h3>Обзор</h3>
+  <ul>
+    <li><b>Сводка.</b> Минимум четыре показателя, посчитанные из данных: курсов в работе, уроков
+      пройдено из общего числа, средний балл по проверенным заданиям, часы за неделю. Руками не проставлять.</li>
+    <li><b>График прогресса по месяцам.</b> Линия или столбцы по ряду <code>progress</code>, подписи
+      осей, подсказка при наведении на точку.</li>
+    <li><b>Кольцевая диаграмма активности.</b> Пять сегментов из <code>weeklyActivity</code> своими
+      цветами, в центре сумма часов, рядом легенда.</li>
+    <li><b>Ближайшие дедлайны.</b> Незакрытые задания по возрастанию срока, просроченное выделено,
+      срок сегодня подписан отдельно.</li>
+  </ul>
+
+  <h3>Курсы, категории, материалы</h3>
+  <ul>
+    <li><b>Каталог.</b> Поиск по названию и преподавателю, фильтр по категории, переключатель
+      "Все / Мои / Доступные", сортировка по рейтингу, цене и названию. Все условия комбинируются,
+      рядом видно число найденного, при пустой выдаче показывается пустое состояние со сбросом.</li>
+    <li><b>Карточка курса в каталоге.</b> Название, категория, уровень, преподаватель, часы, уроки,
+      рейтинг с числом отзывов, цена, прогресс для курсов, на которые студент записан.</li>
+    <li><b>Страница курса.</b> Описание, преподаватель, уровень, прогресс по урокам, список уроков
+      с длительностью и пометкой бесплатных, задания этого курса, материалы этого курса.
+      Кнопка записи и отписки меняет состояние сразу и сохраняется. Кнопка "пройден следующий урок"
+      двигает прогресс. Несуществующий id ведёт на заглушку.</li>
+    <li><b>Категории.</b> Карточки с поиском, у каждой число курсов и суммарные часы, посчитанные из
+      данных, переход в отфильтрованный каталог.</li>
+    <li><b>Материалы.</b> Поиск, фильтр по курсу, фильтр по типу (pdf, видео, ссылка, код, датасет),
+      размер файла в понятном виде, дата добавления, автор.</li>
+  </ul>
+
+  <h3>Задания</h3>
+  <ul>
+    <li><b>Вкладки в адресе.</b> Текущие, отправленные, проверенные - каждая по своему адресу,
+      прямая ссылка на вкладку открывается сразу на ней.</li>
+    <li><b>Фильтры.</b> Поиск по названию и фильтр по курсу, работают вместе со вкладками.</li>
+    <li><b>Таблица или список.</b> Название, курс, тип, срок, приоритет, статус. Просроченное
+      выделено, у проверенных виден балл и отзыв преподавателя.</li>
+    <li><b>Действия.</b> Кнопки "начать" и "отправить" меняют статус задания, задание переезжает в
+      соответствующую вкладку, счётчики пересчитываются, состояние переживает перезагрузку.</li>
+  </ul>
+
+  <h3>Настройки</h3>
+  <ul>
+    <li><b>Профиль.</b> Форма с именем, email и ролью: пустые и некорректные значения не сохраняются,
+      длина полей ограничена, после сохранения новое имя и инициалы видны в верхней панели.</li>
+    <li><b>Переключатели оповещений и темы.</b> Состояние сохраняется.</li>
+    <li><b>Сброс демо-данных.</b> Возвращает всё к исходному файлу, включая поля формы профиля.</li>
+  </ul>
+
+  <h3>Общее</h3>
+  <ul>
+    <li><b>Адаптив.</b> Рабочая раскладка от 320px до 1440px на всех восьми экранах.</li>
+    <li><b>Состояние в адресной строке.</b> Фильтры, поиск и сортировка на экранах каталога, заданий
+      и материалов отражаются в URL. Ссылка, открытая в новой вкладке, показывает ту же выборку,
+      кнопка "назад" возвращает к предыдущему состоянию.</li>
+    <li><b>Переходы.</b> Обязательны четыре: появление содержимого при смене экрана,
+      выезд боковой панели на телефоне, наведение на карточку и строку таблицы, смена содержимого
+      списка при переключении фильтра. При включённом <code>prefers-reduced-motion</code> все
+      переходы выключаются.</li>
+  </ul>
+  <div class="note">Если на что-то не хватит времени, не выбрасывайте экран целиком: доведите до конца
+  то, что делаете, и перечислите недоделанное в README. Незаконченный экран без объяснения хуже,
+  чем честно названный список.</div>
+</section>
+
+<section>
+  <h2><span class="num">03</span>Краевые случаи в данных</h2>
+  <p class="hint">Они заложены в JSON специально. Обработать их - часть задания, ловушек сверх этого списка нет.</p>
+  <div class="scroll">
+  <table>
+    <tr><th>Случай</th><th>Где</th><th>Ожидаемое поведение</th></tr>
+    <tr><td>Название на 90 символов</td><td class="mono">c2</td><td>Карточка не ломает сетку и не растягивает соседей</td></tr>
+    <tr><td>Цена 0</td><td class="mono">c4</td><td>Показывать "Бесплатно" вместо суммы</td></tr>
+    <tr><td>Мест не осталось</td><td class="mono">c5, seatsLeft: 0</td><td>Пометка о том, что мест нет, кнопка записи неактивна</td></tr>
+    <tr><td>Рейтинг 5 и 4.05</td><td class="mono">c6, c4</td><td>Единый формат, один знак после запятой</td></tr>
+    <tr><td>1 урок против 7 уроков</td><td class="mono">c4, c9</td><td>Одинаково корректная вёрстка списка</td></tr>
+    <tr><td>Поле oldPrice есть не везде</td><td class="mono">c2, c4, c6, c8</td><td>Пустого места и пустой зачёркнутой строки быть не должно</td></tr>
+    <tr><td>Просроченное задание</td><td class="mono">t8, срок 3 сентября</td><td>Выделено как просроченное, а не как обычное</td></tr>
+    <tr><td>Срок сегодня</td><td class="mono">t15, 9 сентября</td><td>Подписано отдельно от просроченного и от будущего</td></tr>
+    <tr><td>Проверенное задание с отзывом</td><td class="mono">t5, t6, t11</td><td>Виден балл и текст отзыва преподавателя, у остальных этого блока нет</td></tr>
+    <tr><td>Материал без размера файла</td><td class="mono">r2, r5, r7, r11</td><td>Строка размера не показывается вовсе, а не "undefined" и не 0 КБ</td></tr>
+    <tr><td>Крупный файл</td><td class="mono">r6, 15400 КБ</td><td>Показывать в мегабайтах, а не пятизначным числом килобайт</td></tr>
+    <tr><td>Курс без записи</td><td class="mono">c4, c5, c7, c10</td><td>Прогресса нет, вместо него кнопка записи</td></tr>
+    <tr><td>Записан, но ни одного урока</td><td class="mono">c6, lessonsDone: 0</td><td>Прогресс 0 процентов виден, а не пустое место</td></tr>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">04</span>Дизайн-система</h2>
+  <p class="hint">Жёстко заданы цвета, шрифт и композиция. Свободны только величины: кегли, отступы, радиусы, высоты, тайминги.</p>
+
+  <h3>Что задано жёстко</h3>
+  <ul>
+    <li><b>Палитра.</b> Цвета ниже, все значения в hex, копируются отсюда.
+      Своих цветов не добавлять: если чего-то не хватает, берите мягкую заливку из имеющейся пары.</li>
+    <li><b>Шрифт.</b> Inter. Начертания на ваш выбор.</li>
+  </ul>
+
+  <h3>Светлая тема</h3>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#f4f2ef"></div><div class="meta"><span class="name">Фон страницы</span><span class="val">#f4f2ef</span></div></div>
+    <div class="sw"><div class="chip" style="background:#ffffff"></div><div class="meta"><span class="name">Карточка</span><span class="val">#ffffff</span></div></div>
+    <div class="sw"><div class="chip" style="background:#faf9f7"></div><div class="meta"><span class="name">Подложка</span><span class="val">#faf9f7</span></div></div>
+    <div class="sw"><div class="chip" style="background:#e9e5e0"></div><div class="meta"><span class="name">Граница</span><span class="val">#e9e5e0</span></div></div>
+    <div class="sw"><div class="chip" style="background:#17161a"></div><div class="meta"><span class="name">Текст</span><span class="val">#17161a</span></div></div>
+    <div class="sw"><div class="chip" style="background:#74707a"></div><div class="meta"><span class="name">Текст вторичный</span><span class="val">#74707a</span></div></div>
+    <div class="sw"><div class="chip" style="background:#a19da8"></div><div class="meta"><span class="name">Текст блёклый</span><span class="val">#a19da8</span></div></div>
+    <div class="sw"><div class="chip" style="background:#f5761a"></div><div class="meta"><span class="name">Акцент</span><span class="val">#f5761a</span></div></div>
+    <div class="sw"><div class="chip" style="background:#d95f0c"></div><div class="meta"><span class="name">Акцент нажатый</span><span class="val">#d95f0c</span></div></div>
+    <div class="sw"><div class="chip" style="background:#fff1e6"></div><div class="meta"><span class="name">Акцент, заливка</span><span class="val">#fff1e6</span></div></div>
+    <div class="sw"><div class="chip" style="background:#16a34a"></div><div class="meta"><span class="name">Успех</span><span class="val">#16a34a</span></div></div>
+    <div class="sw"><div class="chip" style="background:#2f7ef0"></div><div class="meta"><span class="name">Информация</span><span class="val">#2f7ef0</span></div></div>
+    <div class="sw"><div class="chip" style="background:#d97706"></div><div class="meta"><span class="name">Внимание</span><span class="val">#d97706</span></div></div>
+    <div class="sw"><div class="chip" style="background:#e0399a"></div><div class="meta"><span class="name">Розовый</span><span class="val">#e0399a</span></div></div>
+    <div class="sw"><div class="chip" style="background:#7c5cf0"></div><div class="meta"><span class="name">Фиолетовый</span><span class="val">#7c5cf0</span></div></div>
+  </div>
+  <p class="hint" style="margin:10px 0 0">Мягкие заливки под бейджи: успех <span class="mono">#e7f6ec</span>,
+  информация <span class="mono">#e8f0fe</span>, внимание <span class="mono">#fdf1dc</span>,
+  розовый <span class="mono">#fde8f4</span>, фиолетовый <span class="mono">#eee9fe</span>.
+  У каждой категории в данных есть поле <code>color</code>, оно указывает, какую пару брать.</p>
+
+  <h3>Тёмная тема</h3>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#131316"></div><div class="meta"><span class="name">Фон страницы</span><span class="val">#131316</span></div></div>
+    <div class="sw"><div class="chip" style="background:#1a1a1f"></div><div class="meta"><span class="name">Карточка</span><span class="val">#1a1a1f</span></div></div>
+    <div class="sw"><div class="chip" style="background:#202026"></div><div class="meta"><span class="name">Подложка</span><span class="val">#202026</span></div></div>
+    <div class="sw"><div class="chip" style="background:#2c2c33"></div><div class="meta"><span class="name">Граница</span><span class="val">#2c2c33</span></div></div>
+    <div class="sw"><div class="chip" style="background:#f2f1f5"></div><div class="meta"><span class="name">Текст</span><span class="val">#f2f1f5</span></div></div>
+    <div class="sw"><div class="chip" style="background:#9e9aa8"></div><div class="meta"><span class="name">Текст вторичный</span><span class="val">#9e9aa8</span></div></div>
+    <div class="sw"><div class="chip" style="background:#6f6b7a"></div><div class="meta"><span class="name">Текст блёклый</span><span class="val">#6f6b7a</span></div></div>
+    <div class="sw"><div class="chip" style="background:#ff8a3d"></div><div class="meta"><span class="name">Акцент</span><span class="val">#ff8a3d</span></div></div>
+    <div class="sw"><div class="chip" style="background:#ffa76b"></div><div class="meta"><span class="name">Акцент нажатый</span><span class="val">#ffa76b</span></div></div>
+    <div class="sw"><div class="chip" style="background:#33210f"></div><div class="meta"><span class="name">Акцент, заливка</span><span class="val">#33210f</span></div></div>
+    <div class="sw"><div class="chip" style="background:#4ade80"></div><div class="meta"><span class="name">Успех</span><span class="val">#4ade80</span></div></div>
+    <div class="sw"><div class="chip" style="background:#6ea8ff"></div><div class="meta"><span class="name">Информация</span><span class="val">#6ea8ff</span></div></div>
+    <div class="sw"><div class="chip" style="background:#fbbf24"></div><div class="meta"><span class="name">Внимание</span><span class="val">#fbbf24</span></div></div>
+    <div class="sw"><div class="chip" style="background:#f472b6"></div><div class="meta"><span class="name">Розовый</span><span class="val">#f472b6</span></div></div>
+    <div class="sw"><div class="chip" style="background:#a78bfa"></div><div class="meta"><span class="name">Фиолетовый</span><span class="val">#a78bfa</span></div></div>
+  </div>
+  <p class="hint" style="margin:10px 0 0">Мягкие заливки: успех <span class="mono">#16281c</span>,
+  информация <span class="mono">#16233a</span>, внимание <span class="mono">#33270f</span>,
+  розовый <span class="mono">#33192a</span>, фиолетовый <span class="mono">#241f3d</span>.</p>
+
+  <h3>Что на ваше усмотрение</h3>
+  <p class="hint" style="margin:0 0 12px">Конкретных чисел здесь нет намеренно: кегли, отступы,
+  радиусы, высоты и длительности вы подбираете сами. Требование одно - это должно быть системой,
+  а не набором случайных значений. <b>Композиция в этот список не входит:</b> что на экране стоит,
+  в каком порядке и как сгруппировано - смотрите в референсе и повторяйте, а не придумывайте своё.</p>
+  <ul>
+    <li><b>Кегли.</b> Иерархия различима: заголовок экрана крупнее заголовка карточки, тот крупнее
+      подписи. Основной текст читается без напряжения. Одинаковые по смыслу элементы набраны
+      одинаково: все названия карточек одним размером, все подписи одним.</li>
+    <li><b>Отступы.</b> Единый шаг по всему проекту, а не подобранные на глаз значения.
+      Одинаковые блоки отбиты одинаково, воздух внутри карточки одинаковый на всех экранах.</li>
+    <li><b>Радиусы, границы, тени.</b> Один радиус у карточек, другой у кнопок и полей,
+      и они не меняются от экрана к экрану. Тень мягкая и одна на все карточки.</li>
+    <li><b>Высоты контролов.</b> Кнопки, поля и селекты одной высоты в пределах одного ряда и
+      одинаковы во всём проекте.</li>
+    <li><b>Сетка.</b> Число колонок и порядок блоков берутся с референса. Ваш выбор -
+      только точки перестроения: на какой ширине каталог сложится в две колонки и на какой в одну.</li>
+    <li><b>Переходы.</b> Быстрые, одинаковые по характеру, не мешают работе. При включённом
+      <code>prefers-reduced-motion</code> выключаются.</li>
+  </ul>
+  <div class="note">Ориентир по всем этим величинам - референс из раздела 05. Он открыт в
+  инспекторе, значения оттуда снимаются за минуту, и взять их как есть - нормальное решение.
+  Собственное оформление, не похожее на референс, задание не выполняет, даже если оно аккуратное.</div>
+</section>
+
+<section>
+  <h2><span class="num">05</span>Референс стилистики</h2>
+  <p class="hint">Тот же продукт, к которому нужно прийти визуально.</p>
+  <p style="margin:0 0 12px"><a href="https://knowvio-dashboard.vercel.app/">knowvio-dashboard.vercel.app</a>
+  задаёт визуальный язык, к которому нужно прийти: та же палитра, та же плотность блоков, тот же
+  характер карточек, кнопок, бейджей и таблиц, такое же поведение на узком экране. Экраны у вас
+  те же самые, поэтому ориентироваться на них можно и нужно, вплоть до похожей раскладки.</p>
+  <p style="margin:0 0 12px"><b>Задача - повторить референс, а не придумать своё.</b> Композицию
+  вы не изобретаете: раскладка экрана, состав и порядок блоков, из чего собрана карточка, где стоят
+  фильтры и действия, что уезжает вниз на телефоне - всё это смотрится в референсе и повторяется.
+  Открывайте его в инспекторе, измеряйте, разбирайтесь, как он устроен, повторяйте внешний вид - это
+  ожидаемая часть задания, а не хитрость. Своя трактовка вместо повторения считается невыполненным
+  пунктом, даже если она вам нравится больше.</p>
+  <div class="note stop"><b>Единственный запрет:</b> переносить в свой проект файлы, разметку, классы
+  и стили с этого сайта. Повторять глазами - да, копировать кодом - нет.</div>
+</section>
+
+<section>
+  <h2><span class="num">06</span>Что приложено</h2>
+  <ul class="files">
+    <li><span class="f">mock/data.json</span><span>Данные целиком: пользователь, категории, курсы с уроками, задания, материалы, активность, прогресс. Файл не редактировать.</span></li>
+    <li><span class="f">этот файл</span><span>Постановка задачи.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">07</span>Как сдавать</h2>
+  <ul>
+    <li><b>Задеплоенная ссылка</b>: Vercel, Netlify или GitHub Pages. Проверять будем по ней, так что
+      она должна открываться с телефона и с компьютера. Прямая ссылка на страницу курса и обновление
+      этой страницы по F5 обязаны работать, а не отдавать 404 хостинга.</li>
+    <li>Git-репозиторий с историей коммитов. Один коммит с готовым проектом не принимается.</li>
+    <li>В README: честный список того, что не успели, если такое есть.</li>
+  </ul>
+  <div class="note">Оценка идёт в браузере: как выглядит и как работает. Код никто не читает,
+  сборку и консоль не проверяют. Не тратьте время на вылизывание структуры проекта, потратьте
+  на вёрстку и поведение.</div>
+  <div class="note">Вопросы по требованиям и значениям задаются в первые 4 часа после получения задания,
+  ответ будет в течение часа. После этого постановка заморожена и правки в неё не вносятся.</div>
+</section>
+
+<footer>Оценивается только то, как страница выглядит и работает в браузере. Стиль кода, архитектура и тесты не оцениваются.</footer>
+
+</div>
+</body>
+</html>

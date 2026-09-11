@@ -20,20 +20,36 @@ export interface Category {
   color: ColorKey
 }
 
+export interface Lesson {
+  id: string
+  title: string
+  minutes: number
+  free: boolean
+}
+
 export interface Course {
   id: string
   title: string
   categoryId: string
   teacher: string
-  description: string
   level: 'beginner' | 'middle' | 'advanced'
-  color: ColorKey
-  lessonsTotal: number
-  lessonsDone: number
+  description: string
   hours: number
-  averageScore: number
-  enrolled: boolean
+  rating: number
+  reviews: number
+  price: number
+  oldPrice?: number
+  seatsLeft: number
   updatedAt: string
+  tags: string[]
+  lessons: Lesson[]
+  lessonsTotal: number
+  enrolled: boolean
+  lessonsDone: number
+  averageScore: number
+  // Поля color в data.json у курса нет — цвет берём из категории.
+  // Оставляем его опциональным, чтобы не переписывать data.json.
+  color?: ColorKey
 }
 
 export type TaskStatus = 'not_started' | 'in_progress' | 'submitted' | 'graded'
@@ -331,3 +347,12 @@ export const MAX_LENGTHS = {
   email: 120,
   role: 80,
 } as const
+
+// ТЗ, раздел 03, «Рейтинг 5 и 4.05»: «Единый формат, один знак после запятой».
+export const formatRating = (value: number) => value.toFixed(1)
+
+// ТЗ, раздел 03, «Цена 0»: «Показывать "Бесплатно" вместо суммы».
+export const formatPrice = (value: number) =>
+  value === 0 ? 'Бесплатно' : `${value.toLocaleString('ru-RU')} ₽`
+
+// ТЗ, раздел 03, «Крупный файл» и «oldPrice есть не везде» — эти проверки в компоненте.

@@ -22,6 +22,7 @@ import {
   useLocation,
   useNavigate,
   useParams,
+  useSearchParams,
 } from 'react-router-dom'
 import {
   Area,
@@ -75,7 +76,9 @@ import {// @ts-ignore
   Sun,
   Target,
   User as UserIcon,// @ts-ignore
-  Users,
+  Users,// @ts-ignore
+  Star,// @ts-ignore
+  AlertTriangle,
 } from 'lucide-react'
 import './App.scss'
 import {
@@ -115,6 +118,8 @@ import {
   type Resource,
   type Task,
   type Theme,
+  formatPrice,
+  formatRating,
 } from './types'
 
 /* ============================================================
@@ -1230,15 +1235,46 @@ function DeadlineRow({ task }: { task: Task }) {
 
 function CoursesPage({ onlyMine = false }: { onlyMine?: boolean }) {
   const { data } = useApp()
-  const [query, setQuery] = useState('')
-  const [categoryId, setCategoryId] = useState<string>('all')
-  const [scope, setScope] = useState<'all' | 'mine' | 'available'>(
-    onlyMine ? 'mine' : 'all',
-  )
-  const [sort, setSort] = useState<'rating' | 'title' | 'hours'>('rating')
 
-  // Комбинируем все фильтры. ТЗ, раздел 02, «Курсы, категории, материалы»:
-  // «Все условия комбинируются, рядом видно число найденного».
+  // Все фильтры живут в URL. ТЗ, раздел 02, «Общее» → «Состояние в адресной строке».
+  // На /courses/my параметр scope жёстко = 'mine', пользователь его не меняет.
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const query = searchParams.get('q') ?? ''
+  const categoryId = searchParams.get('category') ?? 'all'
+  // На /courses/my scope жёстко = 'mine', независимо от того, что в URL.
+// Если кто-то вручную дописал ?scope=all, мы это игнорируем и — ниже — подчищаем URL.
+const scope = onlyMine
+  ? 'mine'
+  : ((searchParams.get('scope') as 'all' | 'mine' | 'available') ?? 'all')
+  const sort = (searchParams.get('sort') as 'rating' | 'title' | 'hours') ?? 'rating'
+
+  // Обновляем один параметр, не трогая остальные.
+  // replace: true — чтобы каждое нажатие не забивало историю.
+  const updateParam = (key: string, value: string) => {
+    const next = new URLSearchParams(searchParams)
+    // Пустые значения и «всё по умолчанию» убираем из URL — так ссылка короче.
+    const isDefault =
+      (key === 'q' && value === '') ||
+      (key === 'category' && value === 'all') ||
+      (key === 'scope' && value === 'all') ||
+      (key === 'sort' && value === 'rating')
+    if (isDefault) next.delete(key)
+    else next.set(key, value)
+    setSearchParams(next, { replace: true })
+  }
+
+  // Если мы на /courses/my, а в URL остался параметр scope — убираем его.
+// Это защита от ручного ввода ?scope=all в адресную строку.
+useEffect(() => {
+  if (!onlyMine) return
+  if (!searchParams.has('scope')) return
+  const next = new URLSearchParams(searchParams)
+  next.delete('scope')
+  setSearchParams(next, { replace: true })
+}, [onlyMine, searchParams, setSearchParams])
+
+  // Список курсов — та же логика фильтрации, что была, только данные берём из URL.
   const courses = useMemo(() => {
     const q = query.trim().toLowerCase()
     const filtered = data.courses
@@ -1253,9 +1289,6 @@ function CoursesPage({ onlyMine = false }: { onlyMine?: boolean }) {
           c.teacher.toLowerCase().includes(q),
       )
 
-    // «Сортировка по рейтингу, цене и названию» — у нас в данных нет цены,
-    // поэтому оставляем рейтинг, название и часы (ближайшее, что есть).
-    // В комментарии честно называем это.
     return filtered.sort((a, b) => {
       if (sort === 'title') return a.title.localeCompare(b.title)
       if (sort === 'hours') return b.hours - a.hours
@@ -1273,13 +1306,13 @@ function CoursesPage({ onlyMine = false }: { onlyMine?: boolean }) {
             <SearchBox
               className="w-full sm:w-56"
               value={query}
-              onChange={setQuery}
+              onChange={(v) => updateParam('q', v)}
               placeholder="Название или преподаватель"
             />
             <Select
               className="w-full sm:w-52"
               value={categoryId}
-              onChange={setCategoryId}
+              onChange={(v) => updateParam('category', v)}
               ariaLabel="Категория"
               options={[
                 { value: 'all', label: 'Все категории' },
@@ -1289,7 +1322,7 @@ function CoursesPage({ onlyMine = false }: { onlyMine?: boolean }) {
             <Select
               className="w-full sm:w-44"
               value={sort}
-              onChange={(v) => setSort(v as typeof sort)}
+              onChange={(v) => updateParam('sort', v)}
               ariaLabel="Сортировка"
               options={[
                 { value: 'rating', label: 'По рейтингу' },
@@ -1301,19 +1334,22 @@ function CoursesPage({ onlyMine = false }: { onlyMine?: boolean }) {
         }
       />
 
-      <Tabs
-        value={scope}
-        onChange={(v) => setScope(v as 'all' | 'mine' | 'available')}
-        options={[
-          { value: 'all', label: 'Все', count: data.courses.length },
-          { value: 'mine', label: 'Мои', count: data.courses.filter((c) => c.enrolled).length },
-          {
-            value: 'available',
-            label: 'Доступные',
-            count: data.courses.filter((c) => !c.enrolled).length,
-          },
-        ]}
-      />
+      {/* На /courses/my табы не переключаются, потому что scope жёстко 'mine'. */}
+      {!onlyMine && (
+        <Tabs
+          value={scope}
+          onChange={(v) => updateParam('scope', v)}
+          options={[
+            { value: 'all', label: 'Все', count: data.courses.length },
+            { value: 'mine', label: 'Мои', count: data.courses.filter((c) => c.enrolled).length },
+            {
+              value: 'available',
+              label: 'Доступные',
+              count: data.courses.filter((c) => !c.enrolled).length,
+            },
+          ]}
+        />
+      )}
 
       {courses.length === 0 ? (
         <Card>
@@ -1337,29 +1373,53 @@ function CoursesPage({ onlyMine = false }: { onlyMine?: boolean }) {
 function CourseCard({ course }: { course: Course }) {
   const { data, dispatch } = useApp()
   const category = getCategory(data, course.categoryId)
+const accent: ColorKey = category?.color ?? 'accent'
+
   const progress = course.lessonsTotal
     ? Math.round((course.lessonsDone / course.lessonsTotal) * 100)
     : 0
 
+  // ТЗ, раздел 03, «Мест не осталось»: пометка + неактивная кнопка.
+  const noSeats = course.seatsLeft === 0
+  const fewSeats = course.seatsLeft > 0 && course.seatsLeft <= 5
+
   return (
     <Card className="course-card">
+      {/* Шапка: иконка категории + бейдж */}
       <div className="course-head">
         <span
           className="course-icon"
-          style={{ background: cssSoft(course.color), color: cssColor(course.color) }}
+          style={{ background: cssSoft(accent), color: cssColor(accent) }}
         >
           <BookOpen size={18} />
         </span>
-        <Badge color={course.enrolled ? 'ok' : 'info'}>
-          {course.enrolled ? 'Вы записаны' : 'Открыт набор'}
-        </Badge>
+        <div className="course-head-badges">
+          {course.enrolled ? (
+            <Badge color="ok">Вы записаны</Badge>
+          ) : (
+            <Badge color="info">Открыт набор</Badge>
+          )}
+          {category && <Badge color={accent}>{category.name}</Badge>}
+        </div>
       </div>
 
+      {/* Название. ТЗ, раздел 03: длинное название не должно ломать сетку. */}
       <NavLink to={`/courses/${course.id}`} className="course-title">
         {course.title}
       </NavLink>
+
       <p className="course-desc">{course.description}</p>
 
+      {/* Теги (опционально, если хочется ближе к референсу) */}
+      {course.tags.length > 0 && (
+        <ul className="course-tags">
+          {course.tags.slice(0, 3).map((t) => (
+            <li key={t} className="course-tag">{t}</li>
+          ))}
+        </ul>
+      )}
+
+      {/* Метаданные: уровень, уроки, часы */}
       <dl className="course-meta">
         <div>
           <dt>Уровень</dt>
@@ -1375,12 +1435,17 @@ function CourseCard({ course }: { course: Course }) {
         </div>
       </dl>
 
-      {/* ТЗ, раздел 02, «Курсы» → «Карточка курса в каталоге»:
-          «прогресс для курсов, на которые студент записан».
-          Для не записанных — кнопка записи вместо прогресса. */}
+      {/* Рейтинг + отзывы. ТЗ, раздел 02, «Карточка курса в каталоге». */}
+      <div className="course-rating">
+        <span className="course-rating-star" aria-hidden>★</span>
+        <span className="course-rating-value">{formatRating(course.rating)}</span>
+        <span className="course-rating-reviews">({course.reviews})</span>
+      </div>
+
+      {/* Прогресс для записанных, кнопка «Записаться» для остальных. */}
       {course.enrolled ? (
         <div className="course-progress">
-          <Progress value={progress} color={course.color} />
+          <Progress value={progress} color={accent} />
           <span className="course-progress-value">{progress}%</span>
         </div>
       ) : (
@@ -1389,16 +1454,38 @@ function CourseCard({ course }: { course: Course }) {
         </div>
       )}
 
+      {/* Цена + старая цена. ТЗ, раздел 03: «Пустого места и пустой зачёркнутой строки быть не должно». */}
+      {!course.enrolled && (
+        <div className="course-price">
+          <span className={`course-price-current ${course.price === 0 ? 'free' : ''}`}>
+            {formatPrice(course.price)}
+          </span>
+          {course.oldPrice !== undefined && (
+            <span className="course-price-old">{formatPrice(course.oldPrice)}</span>
+          )}
+        </div>
+      )}
+
+      {/* Предупреждение о местах. */}
+      {noSeats && <div className="course-warning danger">Мест нет</div>}
+      {fewSeats && (
+        <div className="course-warning warn">Осталось {course.seatsLeft} мест</div>
+      )}
+
+      {/* Кнопки */}
       <div className="course-actions">
         <button
           type="button"
           className={`btn h-8 flex-1 text-xs ${course.enrolled ? '' : 'btn-accent'}`}
+          disabled={!course.enrolled && noSeats}
           onClick={() => dispatch({ type: 'toggle-course-enroll', courseId: course.id })}
         >
           {course.enrolled ? (
             <>
               <Check size={13} /> Отписаться
             </>
+          ) : noSeats ? (
+            <>Мест нет</>
           ) : (
             <>
               <Plus size={13} /> Записаться
@@ -1414,18 +1501,13 @@ function CourseCard({ course }: { course: Course }) {
         </NavLink>
       </div>
 
-      <p className="course-teacher">
-        Преподаватель: {course.teacher}
-        {category && <> · {category.name}</>}
-      </p>
+      <p className="course-teacher">Преподаватель: {course.teacher}</p>
     </Card>
   )
 }
-
 /* ============================================================
    СТРАНИЦА: КУРС
    ============================================================ */
-
 function CourseDetailPage() {
   const { data, dispatch } = useApp()
   const { id = '' } = useParams()
@@ -1511,7 +1593,45 @@ function CourseDetailPage() {
               </button>
             </div>
           </Card>
+              <Panel
+  title="Программа курса"
+  icon={<BookOpen size={16} className="text-muted" />}
+  subtitle={`${course.lessonsTotal} ${plural(course.lessonsTotal, 'урок', 'урока', 'уроков')} · ${course.lessonsDone} пройдено`}
+>
+  {course.lessons.length === 0 ? (
+    <EmptyState
+      icon={<BookOpen size={18} />}
+      title="Уроки пока не добавлены"
+    />
+  ) : (
+    <ol className="lesson-list">
+      {course.lessons.map((lesson, index) => {
+        const done = index < course.lessonsDone
+        return (
+          <li
+            key={lesson.id}
+            className={`lesson-row ${done ? 'done' : ''}`}
+          >
+            <span className="lesson-index" aria-hidden>
+              {done ? <Check size={12} /> : index + 1}
+            </span>
 
+            <div className="lesson-body">
+              <p className="lesson-title">{lesson.title}</p>
+              <p className="lesson-meta">
+                <Clock size={12} aria-hidden />
+                {lesson.minutes} мин
+                {lesson.free && <> · <span className="lesson-free">Бесплатно</span></>}
+              </p>
+            </div>
+
+            {done && <span className="lesson-done-badge">Пройден</span>}
+          </li>
+        )
+      })}
+    </ol>
+  )}
+</Panel>
           <Panel title="Задания курса" icon={<ClipboardList size={16} className="text-muted" />}>
             {courseTasks.length === 0 ? (
               <EmptyState icon={<ClipboardCheck size={18} />} title="Заданий пока нет" />
@@ -1657,7 +1777,7 @@ function CategoriesPage() {
                   {list.slice(0, 3).map((course) => (
                     <li key={course.id}>
                       <NavLink to={`/courses/${course.id}`} className="category-row">
-                        <Dot color={course.color} />
+                        <Dot color={c.color} />
                         <span className="min-w-0 flex-1 truncate">{course.title}</span>
                         <span className="simple-hint">
                           {course.lessonsDone}/{course.lessonsTotal}
@@ -1701,8 +1821,26 @@ function AssignmentsPage() {
     ? (tab as AssignmentTab)
     : 'current'
 
-  const [query, setQuery] = useState('')
-  const [courseFilter, setCourseFilter] = useState<string>('all')
+  // Фильтры — в URL. ТЗ, раздел 02, «Общее» → «Состояние в адресной строке».
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('q') ?? ''
+  const courseFilter = searchParams.get('course') ?? 'all'
+
+  const updateParam = (key: string, value: string) => {
+    const next = new URLSearchParams(searchParams)
+    const isDefault =
+      (key === 'q' && value === '') || (key === 'course' && value === 'all')
+    if (isDefault) next.delete(key)
+    else next.set(key, value)
+    setSearchParams(next, { replace: true })
+  }
+
+  // При смене вкладки переносим фильтры в новый URL — так прямая ссылка на вкладку
+  // сохраняет текущий поиск.
+  const switchTab = (v: string) => {
+    const next = new URLSearchParams(searchParams)
+    navigate(`/assignments/${v}${next.toString() ? `?${next}` : ''}`)
+  }
 
   const tasks = useMemo(() => {
     const base =
@@ -1739,13 +1877,13 @@ function AssignmentsPage() {
             <SearchBox
               className="w-full sm:w-56"
               value={query}
-              onChange={setQuery}
+              onChange={(v) => updateParam('q', v)}
               placeholder="Название задания"
             />
             <Select
               className="w-full sm:w-56"
               value={courseFilter}
-              onChange={setCourseFilter}
+              onChange={(v) => updateParam('course', v)}
               ariaLabel="Курс"
               options={[
                 { value: 'all', label: 'Все курсы' },
@@ -1758,7 +1896,7 @@ function AssignmentsPage() {
 
       <Tabs
         value={safeTab}
-        onChange={(v) => navigate(`/assignments/${v}`)}
+        onChange={switchTab}
         options={[
           { value: 'current', label: 'Текущие', count: counts.current },
           { value: 'sent', label: 'Отправленные', count: counts.sent },
@@ -1857,8 +1995,6 @@ function AssignmentsPage() {
                 </div>
               </div>
 
-              {/* ТЗ, раздел 03, «Проверенное задание с отзывом»:
-                  «Виден балл и текст отзыва преподавателя, у остальных этого блока нет». */}
               {t.feedback && t.status === 'graded' && (
                 <p className="feedback">
                   <span className="feedback-label">Комментарий: </span>
@@ -1879,9 +2015,23 @@ function AssignmentsPage() {
 
 function ResourcesPage() {
   const { data } = useApp()
-  const [query, setQuery] = useState('')
-  const [courseFilter, setCourseFilter] = useState<string>('all')
-  const [kindFilter, setKindFilter] = useState<'all' | Resource['kind']>('all')
+
+  // Фильтры — в URL. ТЗ, раздел 02, «Общее» → «Состояние в адресной строке».
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('q') ?? ''
+  const courseFilter = searchParams.get('course') ?? 'all'
+  const kindFilter = (searchParams.get('kind') as 'all' | Resource['kind']) ?? 'all'
+
+  const updateParam = (key: string, value: string) => {
+    const next = new URLSearchParams(searchParams)
+    const isDefault =
+      (key === 'q' && value === '') ||
+      (key === 'course' && value === 'all') ||
+      (key === 'kind' && value === 'all')
+    if (isDefault) next.delete(key)
+    else next.set(key, value)
+    setSearchParams(next, { replace: true })
+  }
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -1892,7 +2042,6 @@ function ResourcesPage() {
       .sort((a, b) => b.addedAt.localeCompare(a.addedAt))
   }, [data.resources, query, courseFilter, kindFilter])
 
-  // ТЗ, раздел 02, «Материалы»: «фильтр по типу (pdf, видео, ссылка, код, датасет)».
   const kindTabs: { value: 'all' | Resource['kind']; label: string; count: number }[] = [
     { value: 'all', label: 'Все', count: data.resources.length },
     ...(['pdf', 'video', 'link', 'code', 'dataset'] as Resource['kind'][]).map((k) => ({
@@ -1912,13 +2061,13 @@ function ResourcesPage() {
             <SearchBox
               className="w-full sm:w-56"
               value={query}
-              onChange={setQuery}
+              onChange={(v) => updateParam('q', v)}
               placeholder="Название материала"
             />
             <Select
               className="w-full sm:w-56"
               value={courseFilter}
-              onChange={setCourseFilter}
+              onChange={(v) => updateParam('course', v)}
               ariaLabel="Курс"
               options={[
                 { value: 'all', label: 'Все курсы' },
@@ -1931,7 +2080,7 @@ function ResourcesPage() {
 
       <Tabs
         value={kindFilter}
-        onChange={(v) => setKindFilter(v as 'all' | Resource['kind'])}
+        onChange={(v) => updateParam('kind', v)}
         options={kindTabs}
       />
 
@@ -1960,8 +2109,6 @@ function ResourcesPage() {
                   <Badge color={RESOURCE_KIND_COLOR[r.kind]}>
                     {RESOURCE_KIND_LABEL[r.kind]}
                   </Badge>
-                  {/* ТЗ, раздел 03, «Материал без размера файла»:
-                      «Строка размера не показывается вовсе». */}
                   {r.sizeKb ? (
                     <span className="simple-hint">{formatSize(r.sizeKb)}</span>
                   ) : null}
